@@ -32,7 +32,7 @@ const Dropdown: React.FC<{ children: React.ReactNode }> = ({ children }) => {
       <DropdownMenu.Trigger asChild>{children}</DropdownMenu.Trigger>
       <DropdownMenu.Portal>
         <DropdownMenu.Content
-          className="border-[1px] border-[#292929] bg-black/[0.85] backdrop-blur-md p-2 rounded-lg shadow-md shadow-black/80"
+          className="border-[1px] border-[#292929] bg-black/[0.80] backdrop-blur-md p-2 rounded-lg shadow-md shadow-black/80"
           sideOffset={10}
           align="start"
         >
