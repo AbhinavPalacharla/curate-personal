@@ -13,7 +13,7 @@ type item = { name: string; icon?: React.ReactNode; onClick?: () => void };
 const DropdownItem: React.FC<item> = ({ name, icon, onClick }) => {
   return (
     <DropdownMenu.Item className="hover:ring-0 hover:outline-none ring-0 outline-none">
-      <div className="w-48 hover:bg-[#282828] rounded-md px-2 py-1">
+      <div className="w-48 active:bg-[#282828] lg:hover:bg-[#282828]  rounded-md px-2 py-2">
         <button
           className="flex flex-row items-center gap-x-2 hover:ring-0 hover:outline-none ring-0 outline-none"
           onClick={onClick}

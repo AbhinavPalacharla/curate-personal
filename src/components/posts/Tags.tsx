@@ -10,7 +10,7 @@ const Tag: FC<{ name: string }> = ({ name }) => {
   return (
     <div className="rounded-full border-[1px] border-[#292929] px-2 py-[0.5]">
       <h1
-        className={`text-[#969696] tracking-wide font-light text-sm w-max ${robotoMono.className}`}
+        className={`text-[#969696] tracking-wider font-light text-sm w-max ${robotoMono.className}`}
       >
         {name}
       </h1>

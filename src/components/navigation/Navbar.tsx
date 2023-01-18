@@ -1,6 +1,6 @@
 import { Button, Dropdown } from "@/components/shared";
 
-const Navbar = (session: any) => {
+const Navbar = () => {
   return (
     <div className="flex flex-row items-center">
       <div className="w-[1%] bg-black/80 backdrop-blur-md" />
@@ -9,8 +9,10 @@ const Navbar = (session: any) => {
           <h1 className="text-[#969696] font-light text-sm italic">Index</h1>
           <h1 className="text-[#969696] font-light text-md italic">/</h1>
           <Dropdown>
-            <button className="text-[#969696] hover:text-white font-light text-sm ring-0 outline-none">
-              UI Inspiration
+            <button className="ring-0 outline-none flex flex-row w-36">
+              <span className="text-[#969696] hover:text-white text-sm font-light block truncate">
+                Architecture Inspo
+              </span>
             </button>
           </Dropdown>
         </div>
