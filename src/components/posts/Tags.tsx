@@ -1,8 +1,8 @@
-"use client";
 import { FC } from "react";
 import { Plus } from "iconoir-react";
 import { Roboto_Mono } from "@next/font/google";
 import { Dropdown } from "@/components/shared";
+import { getIconByName } from "@/utils";
 
 const robotoMono = Roboto_Mono();
 
@@ -26,7 +26,31 @@ const Tags: FC<{ tags?: Array<string> }> = ({ tags }) => {
           return <Tag key={i} name={tag} />;
         })}
       </div>
-      <Dropdown>
+      <Dropdown
+        showSearch={true}
+        items={[
+          {
+            name: "Architecture Inspo",
+            icon: getIconByName("City"),
+          },
+          {
+            name: "Interior Design",
+            icon: getIconByName("SmallLampAlt"),
+          },
+          {
+            name: "Read Later",
+            icon: getIconByName("BookmarkEmpty"),
+          },
+          {
+            name: "UI Inspiration",
+            icon: getIconByName("PerspectiveView"),
+          },
+          {
+            name: "Gift Ideas",
+            icon: getIconByName("Gift"),
+          },
+        ]}
+      >
         <button className="flex flex-row items-center hover:text-white text-[#969696] ring-0 outline-none">
           <Plus className="h-4" />
           <h1 className="text-sm font-light w-max">Add Tag</h1>

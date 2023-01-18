@@ -1,17 +1,13 @@
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 import React from "react";
-import {
-  BookmarkEmpty,
-  City,
-  Gift,
-  PerspectiveView,
-  SmallLampAlt,
-  ZoomIn,
-} from "iconoir-react";
+import { z } from "zod";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { search } from "fast-fuzzy";
 
-type item = { name: string; icon?: React.ReactNode; onClick?: () => void };
+type Item = { name: string; icon?: React.ReactNode; onClick?: () => void };
 
-const DropdownItem: React.FC<item> = ({ name, icon, onClick }) => {
+const DropdownItem: React.FC<Item> = ({ name, icon, onClick }) => {
   return (
     <DropdownMenu.Item className="hover:ring-0 hover:outline-none ring-0 outline-none">
       <div className="w-48 active:bg-[#282828] lg:hover:bg-[#282828]  rounded-md px-2 py-2">
@@ -40,48 +36,53 @@ const DropdownItem: React.FC<item> = ({ name, icon, onClick }) => {
 
 const Dropdown: React.FC<{
   children: React.ReactNode;
-}> = ({ children }) => {
+  showSearch?: boolean;
+  items: Array<Item>;
+}> = ({ children, showSearch, items }) => {
+  const schema = z.object({
+    query: z.string().optional(),
+  });
+
+  const {
+    register,
+    getValues,
+    // formState: { errors },
+  } = useForm({
+    // mode: "onBlur",
+    // resolver: zodResolver(schema),
+  });
+
+  const results = search(getValues("query") || "", items || [], {
+    keySelector: (obj) => obj.name,
+  });
+
   return (
     <DropdownMenu.Root>
       <DropdownMenu.Trigger asChild>{children}</DropdownMenu.Trigger>
       <DropdownMenu.Portal>
         <DropdownMenu.Content
-          className="border-[1px] border-[#292929] bg-black/[0.83] backdrop-blur-md p-2 pr-[0.8rem] rounded-lg shadow-md shadow-black/80 flex flex-col gap-y-1 h-52"
+          className="border-[1px] border-[#292929] bg-black/[0.83] backdrop-blur-md p-2 rounded-lg shadow-md shadow-black/80 flex flex-col gap-y-1 max-h-52"
           sideOffset={10}
           align="start"
         >
-          <div className="flex flex-row items-center gap-x-2 border-[1px] border-[#282828] rounded-md w-full p-2 pr-[0.8rem] bg-black">
-            <ZoomIn className="text-[#969696] h-[0.95rem] w-[0.95rem]" />
-            <h1 className="text-[#969696] text-sm">Search...</h1>
-          </div>
-          <div className="flex flex-col gap-y-1 overflow-y-scroll scrollbar-hide">
-            <DropdownItem
-              name="Architecture Inspo."
-              icon={<City className="text-[#969696] h-[0.95rem] w-[0.95rem]" />}
-            />
-            <DropdownItem
-              name="Interior Design"
-              icon={
-                <SmallLampAlt className="text-[#969696] h-[0.95rem] w-[0.95rem]" />
-              }
-            />
-            <DropdownItem
-              name="Read Later"
-              icon={
-                <BookmarkEmpty className="text-[#969696] h-[0.95rem] w-[0.95rem]" />
-              }
-            />
-            <DropdownItem
-              name="UI Inspiration"
-              icon={
-                <PerspectiveView className="text-[#969696] h-[0.95rem] w-[0.95rem]" />
-              }
-            />
-            <DropdownItem
-              name="Gift Ideas"
-              icon={<Gift className="text-[#969696] h-[0.95rem] w-[0.95rem]" />}
-            />
-          </div>
+          {items ? (
+            <div className="flex flex-col gap-y-1 overflow-y-scroll scrollbar-hide">
+              {items?.map((item, index) => (
+                <DropdownItem
+                  key={index}
+                  name={item.name}
+                  icon={item.icon}
+                  onClick={item.onClick}
+                />
+              ))}
+            </div>
+          ) : (
+            <div className=" flex flex-row h-full items-center justify-center ">
+              <h1 className="text-[#969696] test-sm font-light w-48 p-2 flex flex-row justify-center">
+                No Items :(
+              </h1>
+            </div>
+          )}
         </DropdownMenu.Content>
       </DropdownMenu.Portal>
     </DropdownMenu.Root>

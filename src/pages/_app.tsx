@@ -11,8 +11,11 @@ export default function App({ Component, pageProps }: AppProps) {
     <div className={inter.className}>
       <meta
         name="theme-color"
-        content={"#000000"}
+        content={
+          "#000000, width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0"
+        }
         style={{ backgroundColor: "#000000" }}
+        // content={"width=device-width, initial-scale=1, maximum-scale=1"}
       />
       <div className="bg-black h-full relative">
         <div className="sticky top-0 left-0 right-0">
