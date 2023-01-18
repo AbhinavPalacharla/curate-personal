@@ -6,6 +6,7 @@ import {
   Gift,
   PerspectiveView,
   SmallLampAlt,
+  ZoomIn,
 } from "iconoir-react";
 
 type item = { name: string; icon?: React.ReactNode; onClick?: () => void };
@@ -45,36 +46,42 @@ const Dropdown: React.FC<{
       <DropdownMenu.Trigger asChild>{children}</DropdownMenu.Trigger>
       <DropdownMenu.Portal>
         <DropdownMenu.Content
-          className="border-[1px] border-[#292929] bg-black/[0.83] backdrop-blur-md p-2 pr-[0.8rem] rounded-lg shadow-md shadow-black/80 flex flex-col gap-y-1 h-40 overflow-y-scroll"
+          className="border-[1px] border-[#292929] bg-black/[0.83] backdrop-blur-md p-2 pr-[0.8rem] rounded-lg shadow-md shadow-black/80 flex flex-col gap-y-1 h-52"
           sideOffset={10}
           align="start"
         >
-          <DropdownItem
-            name="Architecture Inspo."
-            icon={<City className="text-[#969696] h-[0.95rem] w-[0.95rem]" />}
-          />
-          <DropdownItem
-            name="Interior Design"
-            icon={
-              <SmallLampAlt className="text-[#969696] h-[0.95rem] w-[0.95rem]" />
-            }
-          />
-          <DropdownItem
-            name="Read Later"
-            icon={
-              <BookmarkEmpty className="text-[#969696] h-[0.95rem] w-[0.95rem]" />
-            }
-          />
-          <DropdownItem
-            name="UI Inspiration"
-            icon={
-              <PerspectiveView className="text-[#969696] h-[0.95rem] w-[0.95rem]" />
-            }
-          />
-          <DropdownItem
-            name="Gift Ideas"
-            icon={<Gift className="text-[#969696] h-[0.95rem] w-[0.95rem]" />}
-          />
+          <div className="flex flex-row items-center gap-x-2 border-[1px] border-[#282828] rounded-md w-full p-2 pr-[0.8rem] bg-black">
+            <ZoomIn className="text-[#969696] h-[0.95rem] w-[0.95rem]" />
+            <h1 className="text-[#969696] text-sm">Search...</h1>
+          </div>
+          <div className="flex flex-col gap-y-1 overflow-y-scroll scrollbar-hide">
+            <DropdownItem
+              name="Architecture Inspo."
+              icon={<City className="text-[#969696] h-[0.95rem] w-[0.95rem]" />}
+            />
+            <DropdownItem
+              name="Interior Design"
+              icon={
+                <SmallLampAlt className="text-[#969696] h-[0.95rem] w-[0.95rem]" />
+              }
+            />
+            <DropdownItem
+              name="Read Later"
+              icon={
+                <BookmarkEmpty className="text-[#969696] h-[0.95rem] w-[0.95rem]" />
+              }
+            />
+            <DropdownItem
+              name="UI Inspiration"
+              icon={
+                <PerspectiveView className="text-[#969696] h-[0.95rem] w-[0.95rem]" />
+              }
+            />
+            <DropdownItem
+              name="Gift Ideas"
+              icon={<Gift className="text-[#969696] h-[0.95rem] w-[0.95rem]" />}
+            />
+          </div>
         </DropdownMenu.Content>
       </DropdownMenu.Portal>
     </DropdownMenu.Root>
