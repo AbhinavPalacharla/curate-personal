@@ -2,6 +2,7 @@
 import { FC } from "react";
 import { Plus } from "iconoir-react";
 import { Roboto_Mono } from "@next/font/google";
+import { Dropdown } from "@/components/shared";
 
 const robotoMono = Roboto_Mono();
 
@@ -25,10 +26,12 @@ const Tags: FC<{ tags?: Array<string> }> = ({ tags }) => {
           return <Tag key={i} name={tag} />;
         })}
       </div>
-      <button className="flex flex-row items-center hover:text-white text-[#969696]">
-        <Plus className="h-4" />
-        <h1 className="text-sm font-light w-max">Add Tag</h1>
-      </button>
+      <Dropdown>
+        <button className="flex flex-row items-center hover:text-white text-[#969696] ring-0 outline-none">
+          <Plus className="h-4" />
+          <h1 className="text-sm font-light w-max">Add Tag</h1>
+        </button>
+      </Dropdown>
     </div>
   );
 };
