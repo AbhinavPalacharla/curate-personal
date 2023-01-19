@@ -23,7 +23,7 @@ const Footer = () => {
         </div>
       </div>
       {/* <h1 className="text-[#969696] text-xs">Created by Abhinav Palacharla</h1> */}
-      <h1 className="text-[#969696] text-xs">By Abhinav Palacharla</h1>
+      <h1 className="text-[#969696] text-xs italic">By Abhinav Palacharla</h1>
     </div>
   );
 };

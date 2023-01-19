@@ -26,7 +26,7 @@ const Navbar = () => {
             ]}
           >
             <button className="ring-0 outline-none flex flex-row w-36">
-              <span className="text-[#969696] hover:text-white text-sm font-light block truncate">
+              <span className="text-[#969696] hover:text-white underline underline-offset-2 text-sm font-light block truncate">
                 Architecture Inspo
               </span>
             </button>

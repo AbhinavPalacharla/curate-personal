@@ -1,31 +1,15 @@
 import "@/styles/globals.css";
 import type { AppProps } from "next/app";
-import { Inter } from "@next/font/google";
-import { Navbar, Footer } from "@/components/navigation";
-import { Html } from "next/document";
+import { Layout } from "@/components/layout";
+import type { NextPageWithLayout } from "@/components/layout";
 
-const inter = Inter();
-
-export default function App({ Component, pageProps }: AppProps) {
+export default function App({
+  Component,
+  pageProps,
+}: AppProps & { Component: NextPageWithLayout }) {
   return (
-    <div className={inter.className}>
-      <meta
-        name="theme-color"
-        content={
-          "#000000, width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0"
-        }
-        style={{ backgroundColor: "#000000" }}
-        // content={"width=device-width, initial-scale=1, maximum-scale=1"}
-      />
-      <div className="bg-black h-full relative">
-        <div className="sticky top-0 left-0 right-0">
-          <Navbar />
-        </div>
-        <div className="px-2 lg:px-48">
-          <Component {...pageProps} />
-        </div>
-        <Footer />
-      </div>
-    </div>
+    <Layout options={{ navbar: Component.navbar, footer: Component.footer }}>
+      <Component {...pageProps} />
+    </Layout>
   );
 }
