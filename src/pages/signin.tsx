@@ -59,14 +59,14 @@ export async function getServerSideProps(context: any) {
     authOptions
   );
 
-  if (!session?.user.username) {
-    return {
-      redirect: {
-        destination: "/register",
-        permanent: false,
-      },
-    };
-  }
+  // if (!session?.user.username) {
+  //   return {
+  //     redirect: {
+  //       destination: "/register",
+  //       permanent: false,
+  //     },
+  //   };
+  // }
 
   return {
     props: {
