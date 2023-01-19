@@ -28,7 +28,7 @@ const Page: NextPageWithLayout = () => {
             <button
               className="mt-6 flex flex-row items-center justify-center gap-x-4 rounded-md bg-black border-[#282828] border-[1px] group-hover:bg-white px-2.5 py-2 w-max"
               onClick={() => {
-                signIn("google");
+                signIn("google", { callbackUrl: "/" });
               }}
             >
               <FaGoogle className="h-5 w-5 text-white group-hover:text-black" />

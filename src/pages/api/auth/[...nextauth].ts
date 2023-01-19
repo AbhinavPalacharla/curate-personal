@@ -34,21 +34,28 @@ export const authOptions: NextAuthOptions = {
 
       return session;
     },
-    signIn: async ({ user, account, profile }) => {
-      // if (user) {
-      //   console.log("user", user);
-      //   if (!user.username) {
-      //     return "/register";
-      //   }
-      //   return "/";
-      // }
+    // signIn: async ({ user, account, profile }) => {
+    // if (user) {
+    //   console.log("user", user);
+    //   if (!user.username) {
+    //     return "/register";
+    //   }
+    //   return "/";
+    // }
 
-      if (user) {
-        return "/";
-      }
+    // console.log("user", user);
+    // if (!user.username) {
+    //   return "/register";
+    // }
 
-      return true;
-    },
+    // if (user.username) {
+    //   console.log("redirecting to /");
+    //   return "/";
+    // }
+
+    // return true;
+    // return "/";
+    // },
   },
   pages: {
     signIn: "/signin",
