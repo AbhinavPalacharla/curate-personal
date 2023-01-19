@@ -36,10 +36,9 @@ const Navbar = () => {
           <Dropdown
             items={data?.map((collection) => ({
               name: collection.name,
-              icon:
-                collection.icon !== ""
-                  ? getIconByName(collection.icon as IconName)
-                  : "",
+              icon: collection.icon
+                ? getIconByName(collection.icon as IconName)
+                : "",
             }))}
           >
             <button className="ring-0 outline-none flex flex-row w-36">
