@@ -32,7 +32,7 @@ const DropdownItem: React.FC<Item> = ({ name, icon, onClick }) => {
 
 const Dropdown: React.FC<{
   children: React.ReactNode;
-  items: Array<Item>;
+  items?: Array<Item>;
 }> = ({ children, items }) => {
   return (
     <DropdownMenu.Root>
