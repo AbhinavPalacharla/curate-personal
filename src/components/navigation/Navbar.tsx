@@ -1,4 +1,5 @@
 import { Button, Dropdown } from "@/components/shared";
+import { getIconByName } from "@/utils";
 
 const Navbar = () => {
   return (
@@ -8,7 +9,22 @@ const Navbar = () => {
         <div className="flex flex-row items-center gap-x-2">
           <h1 className="text-[#969696] font-light text-sm italic">Index</h1>
           <h1 className="text-[#969696] font-light text-md italic">/</h1>
-          <Dropdown>
+          <Dropdown
+            items={[
+              {
+                name: "Architecture Inspo",
+                icon: getIconByName("City"),
+              },
+              {
+                name: "Interior Design",
+                icon: getIconByName("SmallLampAlt"),
+              },
+              {
+                name: "Read Later",
+                icon: getIconByName("BookmarkEmpty"),
+              },
+            ]}
+          >
             <button className="ring-0 outline-none flex flex-row w-36">
               <span className="text-[#969696] hover:text-white text-sm font-light block truncate">
                 Architecture Inspo

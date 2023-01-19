@@ -1,9 +1,5 @@
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 import React from "react";
-import { z } from "zod";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { search } from "fast-fuzzy";
 
 type Item = { name: string; icon?: React.ReactNode; onClick?: () => void };
 
@@ -36,26 +32,8 @@ const DropdownItem: React.FC<Item> = ({ name, icon, onClick }) => {
 
 const Dropdown: React.FC<{
   children: React.ReactNode;
-  showSearch?: boolean;
   items: Array<Item>;
-}> = ({ children, showSearch, items }) => {
-  const schema = z.object({
-    query: z.string().optional(),
-  });
-
-  const {
-    register,
-    getValues,
-    // formState: { errors },
-  } = useForm({
-    // mode: "onBlur",
-    // resolver: zodResolver(schema),
-  });
-
-  const results = search(getValues("query") || "", items || [], {
-    keySelector: (obj) => obj.name,
-  });
-
+}> = ({ children, items }) => {
   return (
     <DropdownMenu.Root>
       <DropdownMenu.Trigger asChild>{children}</DropdownMenu.Trigger>

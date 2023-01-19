@@ -27,7 +27,6 @@ const Tags: FC<{ tags?: Array<string> }> = ({ tags }) => {
         })}
       </div>
       <Dropdown
-        showSearch={true}
         items={[
           {
             name: "Architecture Inspo",
