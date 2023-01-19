@@ -4,6 +4,8 @@ import Image from "next/image";
 import { signIn } from "next-auth/react";
 import { FaGoogle } from "react-icons/fa";
 import { useSession } from "next-auth/react";
+import { unstable_getServerSession } from "next-auth/next";
+import { authOptions } from "@/pages/api/auth/[...nextauth]";
 
 const Page: NextPageWithLayout = () => {
   const { data: session } = useSession();
@@ -49,5 +51,28 @@ const Page: NextPageWithLayout = () => {
 
 Page.navbar = false;
 Page.footer = true;
+
+export async function getServerSideProps(context: any) {
+  const session = await unstable_getServerSession(
+    context.req,
+    context.res,
+    authOptions
+  );
+
+  if (!session) {
+    return {
+      redirect: {
+        destination: "/signin",
+        permanent: false,
+      },
+    };
+  }
+
+  return {
+    props: {
+      session,
+    },
+  };
+}
 
 export default Page;
