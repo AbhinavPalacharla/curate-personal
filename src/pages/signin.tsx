@@ -59,6 +59,15 @@ export async function getServerSideProps(context: any) {
     authOptions
   );
 
+  if (session) {
+    return {
+      redirect: {
+        destination: "/",
+        permanent: false,
+      },
+    };
+  }
+
   // if (!session?.user.username) {
   //   return {
   //     redirect: {

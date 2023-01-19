@@ -43,6 +43,10 @@ export const authOptions: NextAuthOptions = {
       //   return "/";
       // }
 
+      if (user) {
+        return "/";
+      }
+
       return true;
     },
   },
