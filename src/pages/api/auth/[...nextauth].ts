@@ -34,13 +34,17 @@ export const authOptions: NextAuthOptions = {
 
       return session;
     },
-    // signIn: async ({ user, account, profile }) => {
-    //   if (user) {
-    //     return "/";
-    //   }
+    signIn: async ({ user, account, profile }) => {
+      // if (user) {
+      //   console.log("user", user);
+      //   if (!user.username) {
+      //     return "/register";
+      //   }
+      //   return "/";
+      // }
 
-    //   return true;
-    // },
+      return true;
+    },
   },
   pages: {
     signIn: "/signin",

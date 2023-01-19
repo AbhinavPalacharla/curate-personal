@@ -40,6 +40,15 @@ export async function getServerSideProps(context: any) {
     };
   }
 
+  if (!session.user.username) {
+    return {
+      redirect: {
+        destination: "/register",
+        permanent: false,
+      },
+    };
+  }
+
   return {
     props: {
       session,
