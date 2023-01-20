@@ -7,10 +7,8 @@ export default function Document() {
         <link
           rel="icon"
           type="image/png"
-          // sizes="32x32"
-          sizes="180x180"
-          // href="/curatefavicon32.png"
-          href="/curatefavicon180.png"
+          sizes="32x32"
+          href="/curatefavicon32.png"
         ></link>
         <link
           rel="apple-touch-icon"

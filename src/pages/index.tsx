@@ -9,7 +9,7 @@ const Page: NextPageWithLayout = () => {
   return (
     <div>
       <div className="py-10" />
-      <h1 className="text-white">Session: {JSON.stringify(session)}</h1>
+      {/* <h1 className="text-white">Session: {JSON.stringify(session)}</h1> */}
       <Post />
       <PostWithImages />
       <PostWithImages />

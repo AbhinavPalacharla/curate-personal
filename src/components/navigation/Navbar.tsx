@@ -40,6 +40,7 @@ const Navbar = () => {
                 ? getIconByName(collection.icon as IconName)
                 : "",
             }))}
+            action={{ name: "Manage Collections", onClick: () => {} }}
           >
             <button className="ring-0 outline-none flex flex-row w-36">
               <span className="text-[#969696] hover:text-white underline underline-offset-2 text-sm font-light block truncate">

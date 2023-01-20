@@ -6,7 +6,7 @@ type Item = { name: string; icon?: React.ReactNode; onClick?: () => void };
 const DropdownItem: React.FC<Item> = ({ name, icon, onClick }) => {
   return (
     <DropdownMenu.Item className="hover:ring-0 hover:outline-none ring-0 outline-none">
-      <div className="w-48 active:bg-[#282828] lg:hover:bg-[#282828]  rounded-md px-2 py-2">
+      <div className="w-48 active:bg-[#141414] lg:hover:bg-[#141414]  rounded-md px-2 py-2">
         <button
           className="flex flex-row items-center gap-x-2 hover:ring-0 hover:outline-none ring-0 outline-none"
           onClick={onClick}
@@ -33,7 +33,8 @@ const DropdownItem: React.FC<Item> = ({ name, icon, onClick }) => {
 const Dropdown: React.FC<{
   children: React.ReactNode;
   items?: Array<Item>;
-}> = ({ children, items }) => {
+  action?: { name: string; onClick: () => void };
+}> = ({ children, items, action }) => {
   return (
     <DropdownMenu.Root>
       <DropdownMenu.Trigger asChild>{children}</DropdownMenu.Trigger>
@@ -43,22 +44,34 @@ const Dropdown: React.FC<{
           sideOffset={10}
           align="start"
         >
-          {items ? (
-            <div className="flex flex-col gap-y-1 overflow-y-scroll scrollbar-hide">
-              {items?.map((item, index) => (
-                <DropdownItem
-                  key={index}
-                  name={item.name}
-                  icon={item.icon}
-                  onClick={item.onClick}
-                />
-              ))}
-            </div>
-          ) : (
-            <div className=" flex flex-row h-full items-center justify-center ">
-              <h1 className="text-[#969696] test-sm font-light w-48 p-2 flex flex-row justify-center">
-                No Items :(
-              </h1>
+          <div>
+            {items ? (
+              <div className="flex flex-col gap-y-1 overflow-y-scroll scrollbar-hide max-h-40">
+                {items?.map((item, index) => (
+                  <DropdownItem
+                    key={index}
+                    name={item.name}
+                    icon={item.icon}
+                    onClick={item.onClick}
+                  />
+                ))}
+              </div>
+            ) : (
+              <div className=" flex flex-row h-full items-center justify-center ">
+                <h1 className="text-[#969696] test-sm font-light w-48 p-2 flex flex-row justify-center">
+                  No Items :(
+                </h1>
+              </div>
+            )}
+          </div>
+          {action && (
+            <div className="flex flex-row items-center justify-center pt-2 pb-1 border-t-[1px] border-[#282828]">
+              <button
+                className="text-[#969696] text-xs font-light hover:text-white"
+                onClick={action.onClick}
+              >
+                {action.name}
+              </button>
             </div>
           )}
         </DropdownMenu.Content>

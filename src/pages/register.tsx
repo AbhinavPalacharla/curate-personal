@@ -37,7 +37,7 @@ const Page: NextPageWithLayout = () => {
       username: string;
       collectionName: string;
     }) => {
-      return axios.post("/api/user/register", {
+      return axios.post("/api/user/register.user", {
         name: name,
         username: username,
         collectionName: collectionName,
