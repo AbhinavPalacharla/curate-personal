@@ -1,14 +1,37 @@
 import Image from "next/image";
 import CurateMiniLogo from "/public/curate-mini.svg";
 import { Roboto_Mono } from "@next/font/google";
+import { useState, useEffect } from "react";
 
 const robotoMono = Roboto_Mono();
 
-const Footer = () => {
+const Footer: React.FC<{ loading: boolean }> = ({ loading }) => {
+  const [flash, setFlash] = useState(false);
+
+  // useEffect(() => {
+  //   setTimeout(() => {
+  //     setFlash(!flash);
+  //   }, 300);
+  // });
+
+  useEffect(() => {
+    if (loading === false) {
+      setFlash(false);
+    } else {
+      setTimeout(() => {
+        setFlash(!flash);
+      }, 300);
+    }
+  });
+
   return (
     <div className="flex flex-row items-center">
       <div className="w-[1%] bg-black/80 backdrop-blur-md" />
-      <div className="w-[98%] invisible lg:visible flex flex-row justify-between px-2 lg:px-8 py-4 mt-8 border-t-[1px] border-[#292929] bg-black/80 backdrop-blur-md">
+      <div
+        className={`w-[98%] invisible lg:visible flex flex-row justify-between px-2 lg:px-8 py-4 mt-8 border-t-[1px] ${
+          flash ? "border-[#424242]" : "border-[#282828]"
+        } bg-black/80 backdrop-blur-md`}
+      >
         <div className="flex flex-row gap-x-3 items-center">
           <Image
             src={CurateMiniLogo}

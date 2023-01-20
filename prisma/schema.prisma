@@ -34,17 +34,30 @@ model Collection {
 }
 
 model Post {
-  id          String   @id @default(cuid())
-  images      String[]
-  description String?
-
-  collection   Collection @relation(fields: [collectionId], references: [id], onDelete: Cascade)
+  id           String      @id @default(cuid())
+  images       String[]
+  description  String?
+  socialUser   socialUser? @relation(fields: [socialUserId], references: [id])
+  socialUserId String?
+  collection   Collection  @relation(fields: [collectionId], references: [id], onDelete: Cascade)
   collectionId String
-  user         User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user         User        @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId       String
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+model socialUser {
+  id       String   @id @default(cuid())
+  name     String
+  uid      String
+  posts    Post[]
+  platform Platform
+}
+
+enum Platform {
+  TWITTER
 }
 
 model Account {

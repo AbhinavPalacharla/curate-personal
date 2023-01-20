@@ -1,15 +1,47 @@
 import { Post, PostWithImages } from "@/components/posts";
 import type { NextPageWithLayout } from "@/components/layout";
 import { unstable_getServerSession } from "next-auth/next";
-import { useSession } from "next-auth/react";
 import { authOptions } from "@/pages/api/auth/[...nextauth]";
+import { useCollectionStore } from "stores";
+import axios from "axios";
+import { useQuery } from "@tanstack/react-query";
+import type { Collection } from "@prisma/client";
+import { useEffect } from "react";
 
-const Page: NextPageWithLayout = () => {
-  // const { data: session } = useSession();
+const Page: NextPageWithLayout = (props: any) => {
+  const { data, isLoading } = useQuery(
+    ["collections"],
+    async () => {
+      const {
+        data,
+      }: { data: Array<Pick<Collection, "id" | "name" | "icon">> } =
+        await axios.get("/api/collection/get.collections");
+
+      return data;
+    },
+    {
+      initialData: props.collections,
+      refetchInterval: 0,
+    }
+  );
+
+  const collectionStore = useCollectionStore();
+
+  useEffect(() => {
+    if (data) {
+      collectionStore.setCollection({
+        id: data[0].id,
+        name: data[0].name,
+        icon: data[0].icon,
+      });
+    }
+  }, [data]);
+
   return (
     <div>
       <div className="py-10" />
-      {/* <h1 className="text-white">Session: {JSON.stringify(session)}</h1> */}
+      <Post />
+      <Post />
       <Post />
       <PostWithImages />
       <PostWithImages />
@@ -21,6 +53,7 @@ const Page: NextPageWithLayout = () => {
   );
 };
 
+// Page.isLoading = false;
 Page.navbar = true;
 Page.footer = true;
 
@@ -49,9 +82,19 @@ export async function getServerSideProps(context: any) {
     };
   }
 
+  const { data: collections } = await axios.get(
+    "http://localhost:3000/api/collection/get.collections",
+    {
+      headers: {
+        cookie: context.req.headers.cookie,
+      },
+    }
+  );
+
   return {
     props: {
       session,
+      collections,
     },
   };
 }

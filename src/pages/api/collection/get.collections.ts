@@ -7,8 +7,6 @@ import { handleError } from "@/utils/handleError";
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   const session = await unstable_getServerSession(req, res, authOptions);
 
-  console.log("session", session);
-
   try {
     const user = await prisma.user.findUnique({
       where: {

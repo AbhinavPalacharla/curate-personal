@@ -1,6 +1,7 @@
 import { Navbar, Footer } from "@/components/navigation";
 import { Inter } from "@next/font/google";
 import type { NextPage } from "next";
+import { useGlobalStore } from "stores";
 
 const inter = Inter();
 
@@ -15,6 +16,7 @@ const Layout: React.FC<{
   children: React.ReactNode;
   options: options;
 }> = ({ children, options: { navbar, footer } }) => {
+  const { loading } = useGlobalStore();
   return (
     <div className={inter.className}>
       <meta
@@ -27,13 +29,15 @@ const Layout: React.FC<{
       <div className="bg-black h-full relative">
         {navbar && (
           <div className="fixed top-0 left-0 right-0">
-            <Navbar />
+            <Navbar loading={loading} />
           </div>
         )}
+        {/* <h1 className="text-white">loading: {JSON.stringify(loading)}</h1> */}
+
         <div className="px-2 lg:px-48">{children}</div>
         {footer && (
           <div className="fixed bottom-0 left-0 right-0">
-            <Footer />
+            <Footer loading={loading} />
           </div>
         )}
       </div>
