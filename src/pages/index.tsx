@@ -5,7 +5,7 @@ import { useSession } from "next-auth/react";
 import { authOptions } from "@/pages/api/auth/[...nextauth]";
 
 const Page: NextPageWithLayout = () => {
-  const { data: session } = useSession();
+  // const { data: session } = useSession();
   return (
     <div>
       <div className="py-10" />
