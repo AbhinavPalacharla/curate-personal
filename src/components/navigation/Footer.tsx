@@ -6,7 +6,7 @@ const robotoMono = Roboto_Mono();
 
 const Footer = () => {
   return (
-    <div className="flex flex-row justify-between px-2 lg:px-8 py-4 mt-8 border-t-[1px] border-[#292929] bg-black/80 backdrop-blur-md">
+    <div className="invisible lg:visible flex flex-row justify-between px-2 lg:px-8 py-4 mt-8 border-t-[1px] border-[#292929] bg-black/80 backdrop-blur-md">
       <div className="flex flex-row gap-x-3 items-center">
         <Image
           src={CurateMiniLogo}
