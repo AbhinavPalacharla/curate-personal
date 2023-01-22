@@ -128,7 +128,7 @@ export async function getServerSideProps(context: any) {
   }
 
   const { data: collections } = await axios.get(
-    "http://localhost:3000/api/collection/get.collections",
+    "/api/collection/get.collections",
     {
       headers: {
         cookie: context.req.headers.cookie,
