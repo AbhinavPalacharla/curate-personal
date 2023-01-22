@@ -10,20 +10,20 @@ import { useState, useEffect } from "react";
 const Navbar: React.FC<{ loading: boolean }> = ({ loading }) => {
   const [flash, setFlash] = useState(false);
 
-  // const { data, isLoading } = useQuery(
-  //   ["collections"],
-  //   async () => {
-  //     const {
-  //       data,
-  //     }: { data: Array<Pick<Collection, "id" | "name" | "icon">> } =
-  //       await axios.get("/api/collection/get.collections");
+  const { data, isLoading } = useQuery(
+    ["collections"],
+    async () => {
+      const {
+        data,
+      }: { data: Array<Pick<Collection, "id" | "name" | "icon">> } =
+        await axios.get("/api/collection/get.collections");
 
-  //     return data;
-  //   },
-  //   {
-  //     refetchInterval: 0,
-  //   }
-  // );
+      return data;
+    },
+    {
+      refetchInterval: 0,
+    }
+  );
 
   const store = useCollectionStore();
 
@@ -52,7 +52,7 @@ const Navbar: React.FC<{ loading: boolean }> = ({ loading }) => {
           {store.collection && (
             <>
               <h1 className="text-[#969696] font-light text-md italic">/</h1>
-              {/* <Dropdown
+              <Dropdown
                 items={data?.map((collection) => ({
                   name: collection.name,
                   icon: collection.icon
@@ -73,7 +73,7 @@ const Navbar: React.FC<{ loading: boolean }> = ({ loading }) => {
                     {store.collection.name}
                   </span>
                 </button>
-              </Dropdown> */}
+              </Dropdown>
             </>
           )}
         </div>

@@ -21,7 +21,7 @@ const Page: NextPageWithLayout = (props: any) => {
       return data;
     },
     {
-      // initialData: props.collections,
+      initialData: props.collections,
       refetchInterval: 0,
     }
   );
