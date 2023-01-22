@@ -66,7 +66,7 @@ const Page: NextPageWithLayout = (props: any) => {
         icon: data[0].icon,
       });
     }
-  }, [data]);
+  }, [data, collectionStore.collection?.id]);
 
   return (
     <div>
