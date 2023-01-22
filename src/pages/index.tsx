@@ -28,49 +28,49 @@ const Page: NextPageWithLayout = (props: any) => {
 
   const collectionStore = useCollectionStore();
 
-  const { data: collectionData, isLoading: collectionLoading } = useQuery(
-    [collectionStore.collection?.id],
-    async () => {
-      const {
-        data,
-      }: {
-        data: {
-          id: string;
-          name: string;
-          icon: IconName;
-          posts: Array<
-            Pick<
-              PostType,
-              "id" | "description" | "images" | "source" | "createdAt"
-            > & {
-              socialUser: Pick<SocialUser, "username" | "platform">;
-            }
-          >;
-        };
-      } = await axios.get(
-        `/api/collection/get.collection?collectionId=${collectionStore.collection?.id}`
-      );
+  // const { data: collectionData, isLoading: collectionLoading } = useQuery(
+  //   [collectionStore.collection?.id],
+  //   async () => {
+  //     const {
+  //       data,
+  //     }: {
+  //       data: {
+  //         id: string;
+  //         name: string;
+  //         icon: IconName;
+  //         posts: Array<
+  //           Pick<
+  //             PostType,
+  //             "id" | "description" | "images" | "source" | "createdAt"
+  //           > & {
+  //             socialUser: Pick<SocialUser, "username" | "platform">;
+  //           }
+  //         >;
+  //       };
+  //     } = await axios.get(
+  //       `/api/collection/get.collection?collectionId=${collectionStore.collection?.id}`
+  //     );
 
-      return data;
-    },
-    {
-      enabled: !!collectionStore.collection?.id,
-    }
-  );
+  //     return data;
+  //   },
+  //   {
+  //     enabled: !!collectionStore.collection?.id,
+  //   }
+  // );
 
-  useEffect(() => {
-    if (data && collectionStore.collection?.id === "") {
-      collectionStore.setCollection({
-        id: data[0].id,
-        name: data[0].name,
-        icon: data[0].icon,
-      });
-    }
-  }, [data, collectionStore.collection?.id]);
+  // useEffect(() => {
+  //   if (data && collectionStore.collection?.id === "") {
+  //     collectionStore.setCollection({
+  //       id: data[0].id,
+  //       name: data[0].name,
+  //       icon: data[0].icon,
+  //     });
+  //   }
+  // }, [data, collectionStore.collection?.id]);
 
   return (
     <div>
-      <div className="py-10" />
+      {/* <div className="py-10" />
       {collectionData && collectionData.posts.length > 0 ? (
         collectionData.posts.map((post) => {
           return (
@@ -91,9 +91,8 @@ const Page: NextPageWithLayout = (props: any) => {
           </h1>
         </div>
       )}
-      <div className="pb-20 pt-4 flex flex-row justify-center">
-        {/* <h1 className="text-[#969696] italic text-xs">Inspired</h1> */}
-      </div>
+      <div className="pb-20 pt-4 flex flex-row justify-center"></div> */}
+      <h1>Hello</h1>
     </div>
   );
 };
