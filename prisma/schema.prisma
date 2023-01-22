@@ -37,7 +37,8 @@ model Post {
   id           String      @id @default(cuid())
   images       String[]
   description  String?
-  socialUser   socialUser? @relation(fields: [socialUserId], references: [id])
+  source       String?
+  socialUser   SocialUser? @relation(fields: [socialUserId], references: [id])
   socialUserId String?
   collection   Collection  @relation(fields: [collectionId], references: [id], onDelete: Cascade)
   collectionId String
@@ -48,10 +49,10 @@ model Post {
   updatedAt DateTime @updatedAt
 }
 
-model socialUser {
+model SocialUser {
   id       String   @id @default(cuid())
-  name     String
-  uid      String
+  username String
+  uid      String   @unique
   posts    Post[]
   platform Platform
 }
