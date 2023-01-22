@@ -75,6 +75,7 @@ const Page: NextPageWithLayout = (props: any) => {
         collectionData.posts.map((post) => {
           return (
             <Post
+              key={post.id}
               description={post.description}
               images={post.images}
               source={post.source}

@@ -16,6 +16,7 @@ const Post: React.FC<
         <div className="flex flex-row items-center gap-x-4 overflow-scroll scroll-smooth">
           {images.map((image) => (
             <Image
+              key={image}
               alt={"Image"}
               src={image}
               width={250}
