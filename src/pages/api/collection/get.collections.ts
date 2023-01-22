@@ -6,11 +6,20 @@ import { handleError } from "@/utils/handleError";
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   const session = await unstable_getServerSession(req, res, authOptions);
+  const { userId } = req.query;
+
+  let id = "";
+
+  if (userId) {
+    id = userId as string;
+  } else if (session?.user?.id) {
+    id = session?.user?.id as string;
+  }
 
   try {
     const user = await prisma.user.findUnique({
       where: {
-        id: session?.user?.id,
+        id: id,
       },
       select: {
         collections: {

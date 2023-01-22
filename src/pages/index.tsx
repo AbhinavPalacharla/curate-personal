@@ -127,13 +127,12 @@ export async function getServerSideProps(context: any) {
   }
 
   const { data: collections } = await axios.get(
-    "/api/collection/get.collections",
-    {
-      headers: {
-        cookie: context.req.headers.cookie,
-      },
-    }
+    `https://curate-personal.vercel.app/api/collection/get.collections?userId=${session.user.id}`
   );
+
+  // const { data: collections } = await axios.get(
+  //   `http://localhost:3000/api/collection/get.collections?userId=${session.user.id}`
+  // );
 
   return {
     props: {
