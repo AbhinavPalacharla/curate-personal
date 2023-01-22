@@ -126,19 +126,19 @@ export async function getServerSideProps(context: any) {
     };
   }
 
-  // const { data: collections } = await axios.get(
-  //   "/api/collection/get.collections",
-  //   {
-  //     headers: {
-  //       cookie: context.req.headers.cookie,
-  //     },
-  //   }
-  // );
+  const { data: collections } = await axios.get(
+    "/api/collection/get.collections",
+    {
+      headers: {
+        cookie: context.req.headers.cookie,
+      },
+    }
+  );
 
   return {
     props: {
       session,
-      // collections,
+      collections,
     },
   };
 }
