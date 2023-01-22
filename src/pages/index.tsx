@@ -10,21 +10,21 @@ import { useEffect } from "react";
 import type { IconName } from "@/utils/iconNames";
 
 const Page: NextPageWithLayout = (props: any) => {
-  const { data, isLoading } = useQuery(
-    ["collections"],
-    async () => {
-      const {
-        data,
-      }: { data: Array<Pick<Collection, "id" | "name" | "icon">> } =
-        await axios.get("/api/collection/get.collections");
+  // const { data, isLoading } = useQuery(
+  //   ["collections"],
+  //   async () => {
+  //     const {
+  //       data,
+  //     }: { data: Array<Pick<Collection, "id" | "name" | "icon">> } =
+  //       await axios.get("/api/collection/get.collections");
 
-      return data;
-    },
-    {
-      initialData: props.collections,
-      refetchInterval: 0,
-    }
-  );
+  //     return data;
+  //   },
+  //   {
+  //     initialData: props.collections,
+  //     refetchInterval: 0,
+  //   }
+  // );
 
   const collectionStore = useCollectionStore();
 
@@ -126,19 +126,19 @@ export async function getServerSideProps(context: any) {
     };
   }
 
-  const { data: collections } = await axios.get(
-    "/api/collection/get.collections",
-    {
-      headers: {
-        cookie: context.req.headers.cookie,
-      },
-    }
-  );
+  // const { data: collections } = await axios.get(
+  //   "/api/collection/get.collections",
+  //   {
+  //     headers: {
+  //       cookie: context.req.headers.cookie,
+  //     },
+  //   }
+  // );
 
   return {
     props: {
       session,
-      collections,
+      // collections,
     },
   };
 }
