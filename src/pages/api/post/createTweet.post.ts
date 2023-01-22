@@ -6,10 +6,6 @@ import axios from "axios";
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   const { tweetId, tweetURL, collectionId, userId } = req.body;
 
-  // console.log("tweetId", tweetId);
-  // console.log("collectionId", collectionId);
-  // console.log("userId", userId);
-
   try {
     const { data } = await axios.get(
       `https://api.twitter.com/2/tweets/${tweetId}?expansions=attachments.media_keys,author_id&user.fields&media.fields=url`,
@@ -25,7 +21,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     }
 
     const tweet = {
-      description: data.data.text,
+      description: data.data.text.replace(RegExp("https://t.co/.*"), ""),
       images: data.includes.media.map((media: any) => media.url),
       user: {
         uid: data.includes.users[0].id,

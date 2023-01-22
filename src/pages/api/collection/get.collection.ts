@@ -20,6 +20,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
             description: true,
             images: true,
             source: true,
+            createdAt: true,
             socialUser: {
               select: {
                 username: true,

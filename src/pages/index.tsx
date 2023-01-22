@@ -1,8 +1,8 @@
-import { Post, PostWithImages, NewPost } from "@/components/posts";
+import { Post } from "@/components/posts";
 import type { NextPageWithLayout } from "@/components/layout";
 import { unstable_getServerSession } from "next-auth/next";
 import { authOptions } from "@/pages/api/auth/[...nextauth]";
-import { useCollectionStore, useGlobalStore } from "stores";
+import { useCollectionStore } from "stores";
 import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
 import type { Collection, Post as PostType, SocialUser } from "@prisma/client";
@@ -39,7 +39,10 @@ const Page: NextPageWithLayout = (props: any) => {
           name: string;
           icon: IconName;
           posts: Array<
-            Pick<PostType, "id" | "description" | "images" | "source"> & {
+            Pick<
+              PostType,
+              "id" | "description" | "images" | "source" | "createdAt"
+            > & {
               socialUser: Pick<SocialUser, "username" | "platform">;
             }
           >;
@@ -71,14 +74,12 @@ const Page: NextPageWithLayout = (props: any) => {
       {collectionData && collectionData.posts.length > 0 ? (
         collectionData.posts.map((post) => {
           return (
-            <NewPost
-              description={post.description!.replace(
-                RegExp("https://t.co/.*"),
-                ""
-              )}
+            <Post
+              description={post.description}
               images={post.images}
               source={post.source}
               socialUser={post.socialUser}
+              createdAt={post.createdAt}
             />
           );
         })
