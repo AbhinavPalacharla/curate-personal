@@ -55,6 +55,7 @@ const Page: NextPageWithLayout = (props: any) => {
     },
     {
       enabled: !!collectionStore.collection?.id,
+      refetchInterval: 0,
     }
   );
 
