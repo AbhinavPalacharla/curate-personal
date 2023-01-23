@@ -5,7 +5,12 @@ import { authOptions } from "@/pages/api/auth/[...nextauth]";
 import { useCollectionStore } from "stores";
 import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
-import type { Collection, Post as PostType, SocialUser } from "@prisma/client";
+import type {
+  Collection,
+  Role,
+  Post as PostType,
+  SocialUser,
+} from "@prisma/client";
 import { useEffect } from "react";
 import type { IconName } from "@/utils/iconNames";
 
@@ -15,10 +20,23 @@ const Page: NextPageWithLayout = (props: any) => {
     async () => {
       const {
         data,
-      }: { data: Array<Pick<Collection, "id" | "name" | "icon">> } =
-        await axios.get("/api/collection/get.collections");
+      }: // }: { data: Array<Pick<Collection, "id" | "name" | "icon">> } =
+      {
+        data: Array<{
+          type: "OWNER" | "MEMBER";
+          collection: {
+            id: string;
+            name: string;
+            icon: IconName;
+          };
+        }>;
+      } = await axios.get("/api/collection/get.collections");
 
-      return data;
+      const collections = data.map((role) => {
+        return role.collection;
+      });
+
+      return collections;
     },
     {
       initialData: props.collections,
@@ -128,9 +146,23 @@ export async function getServerSideProps(context: any) {
     };
   }
 
-  const { data: collections } = await axios.get(
+  const { data } = (await axios.get(
     `https://curate-personal.vercel.app/api/collection/get.collections?userId=${session.user.id}`
-  );
+    // `http://localhost:3000/api/collection/get.collections?userId=${session.user.id}`
+  )) as {
+    data: Array<{
+      type: "OWNER" | "MEMBER";
+      collection: {
+        id: string;
+        name: string;
+        icon: IconName;
+      };
+    }>;
+  };
+
+  const collections = data.map((role) => {
+    return role.collection;
+  });
 
   // const { data: collections } = await axios.get(
   //   `http://localhost:3000/api/collection/get.collections?userId=${session.user.id}`

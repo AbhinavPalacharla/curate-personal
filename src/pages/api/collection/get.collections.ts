@@ -22,13 +22,28 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
         id: id,
       },
       select: {
-        collections: {
+        roles: {
           select: {
-            id: true,
-            name: true,
-            icon: true,
+            type: true,
+            collection: {
+              select: {
+                id: true,
+                name: true,
+                icon: true,
+              },
+            },
+          },
+          orderBy: {
+            type: "asc",
           },
         },
+        // collections: {
+        //   select: {
+        //     id: true,
+        //     name: true,
+        //     icon: true,
+        //   },
+        // },
       },
     });
 
@@ -36,7 +51,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       return res.status(404).json({ message: "User not found" });
     }
 
-    return res.status(200).json(user?.collections);
+    return res.status(200).json(user?.roles);
   } catch (err) {
     handleError(err, res);
   }
