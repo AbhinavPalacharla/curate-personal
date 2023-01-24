@@ -8,16 +8,17 @@ generator client {
 }
 
 model User {
-  id            String       @id @default(cuid())
+  id            String    @id @default(cuid())
   name          String?
-  username      String?      @unique
-  email         String?      @unique
+  username      String?   @unique
+  email         String?   @unique
   emailVerified DateTime?
   image         String?
   accounts      Account[]
   sessions      Session[]
-  collections   Collection[]
+  // collections   Collection[]
   posts         Post[]
+  roles         Role[]
 }
 
 model Collection {
@@ -25,19 +26,34 @@ model Collection {
   name String
   icon String?
 
-  owner  User   @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId String
-  posts  Post[]
+  // owner  User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  roles Role[]
+  // userId String
+  posts Post[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+model Role {
+  id           String     @id @default(cuid())
+  type         Type
+  users        User[]
+  collection   Collection @relation(fields: [collectionId], references: [id], onDelete: Cascade)
+  collectionId String
+}
+
+enum Type {
+  OWNER
+  MEMBER
 }
 
 model Post {
   id           String      @id @default(cuid())
   images       String[]
   description  String?
-  socialUser   socialUser? @relation(fields: [socialUserId], references: [id])
+  source       String?
+  socialUser   SocialUser? @relation(fields: [socialUserId], references: [id])
   socialUserId String?
   collection   Collection  @relation(fields: [collectionId], references: [id], onDelete: Cascade)
   collectionId String
@@ -48,10 +64,10 @@ model Post {
   updatedAt DateTime @updatedAt
 }
 
-model socialUser {
+model SocialUser {
   id       String   @id @default(cuid())
-  name     String
-  uid      String
+  username String
+  uid      String   @unique
   posts    Post[]
   platform Platform
 }

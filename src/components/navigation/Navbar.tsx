@@ -10,15 +10,43 @@ import { useState, useEffect } from "react";
 const Navbar: React.FC<{ loading: boolean }> = ({ loading }) => {
   const [flash, setFlash] = useState(false);
 
+  // const { data, isLoading } = useQuery(
+  //   ["collections"],
+  //   async () => {
+  //     const {
+  //       data,
+  //     }: { data: Array<Pick<Collection, "id" | "name" | "icon">> } =
+  //       await axios.get("/api/collection/get.collections");
+
+  //     return data;
+  //   },
+  //   {
+  //     refetchInterval: 0,
+  //   }
+  // );
+
   const { data, isLoading } = useQuery(
     ["collections"],
     async () => {
       const {
         data,
-      }: { data: Array<Pick<Collection, "id" | "name" | "icon">> } =
-        await axios.get("/api/collection/get.collections");
+      }: // }: { data: Array<Pick<Collection, "id" | "name" | "icon">> } =
+      {
+        data: Array<{
+          type: "OWNER" | "MEMBER";
+          collection: {
+            id: string;
+            name: string;
+            icon: IconName;
+          };
+        }>;
+      } = await axios.get("/api/collection/get.collections");
 
-      return data;
+      const collections = data.map((role) => {
+        return role.collection;
+      });
+
+      return collections;
     },
     {
       refetchInterval: 0,
@@ -27,15 +55,15 @@ const Navbar: React.FC<{ loading: boolean }> = ({ loading }) => {
 
   const store = useCollectionStore();
 
-  useEffect(() => {
-    if (loading === false) {
-      setFlash(false);
-    } else {
-      setTimeout(() => {
-        setFlash(!flash);
-      }, 300);
-    }
-  });
+  // useEffect(() => {
+  //   if (loading === false) {
+  //     setFlash(false);
+  //   } else {
+  //     setTimeout(() => {
+  //       setFlash(!flash);
+  //     }, 300);
+  //   }
+  // });
 
   return (
     <div className="flex flex-row items-center">

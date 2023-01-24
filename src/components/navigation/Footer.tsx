@@ -14,15 +14,15 @@ const Footer: React.FC<{ loading: boolean }> = ({ loading }) => {
   //   }, 300);
   // });
 
-  useEffect(() => {
-    if (loading === false) {
-      setFlash(false);
-    } else {
-      setTimeout(() => {
-        setFlash(!flash);
-      }, 300);
-    }
-  });
+  // useEffect(() => {
+  //   if (loading === false) {
+  //     setFlash(false);
+  //   } else {
+  //     setTimeout(() => {
+  //       setFlash(!flash);
+  //     }, 300);
+  //   }
+  // });
 
   return (
     <div className="flex flex-row items-center">

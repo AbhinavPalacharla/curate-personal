@@ -6,11 +6,11 @@ type Item = { name: string; icon?: React.ReactNode; onClick?: () => void };
 const DropdownItem: React.FC<Item> = ({ name, icon, onClick }) => {
   return (
     <DropdownMenu.Item className="hover:ring-0 hover:outline-none ring-0 outline-none">
-      <div className="w-48 active:bg-[#141414] lg:hover:bg-[#141414]  rounded-md px-2 py-2">
-        <button
-          className="flex flex-row items-center gap-x-2 hover:ring-0 hover:outline-none ring-0 outline-none"
-          onClick={onClick}
-        >
+      <button
+        className="w-48 active:bg-[#141414] lg:hover:bg-[#141414]  rounded-md px-2 py-2"
+        onClick={onClick}
+      >
+        <div className="flex flex-row items-center gap-x-2 hover:ring-0 hover:outline-none ring-0 outline-none">
           {icon ? (
             icon
           ) : (
@@ -24,8 +24,8 @@ const DropdownItem: React.FC<Item> = ({ name, icon, onClick }) => {
               {name}
             </span>
           </div>
-        </button>
-      </div>
+        </div>
+      </button>
     </DropdownMenu.Item>
   );
 };

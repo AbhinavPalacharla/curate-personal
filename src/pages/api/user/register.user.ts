@@ -9,16 +9,27 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   const { name, username, collectionName } = req.body;
 
   try {
-    const user = await prisma.user.update({
-      where: { id: session?.user?.id },
+    const createCollection = prisma.collection.create({
       data: {
-        name: name,
-        username: username,
-        collections: {
-          create: { name: collectionName },
+        name: collectionName,
+        roles: {
+          create: [
+            { type: "OWNER", users: { connect: { id: session?.user?.id } } },
+            { type: "MEMBER" },
+          ],
         },
       },
     });
+
+    const updateUser = prisma.user.update({
+      where: { id: session?.user?.id },
+      data: { name: name, username: username },
+    });
+
+    const [collection, user] = await prisma.$transaction([
+      createCollection,
+      updateUser,
+    ]);
 
     return res.status(200).json(user);
   } catch (err) {
