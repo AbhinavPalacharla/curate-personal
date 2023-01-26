@@ -36,6 +36,8 @@ const Post: React.FC<
                   key={image}
                   alt={"Image"}
                   src={`${image}:orig`}
+                  placeholder="blur"
+                  blurDataURL={`${image}:small`}
                   width={4096}
                   height={4096}
                   className="rounded-md object-fill w-full h-full"
