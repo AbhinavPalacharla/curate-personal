@@ -13,18 +13,37 @@ const Post: React.FC<
   return (
     <div className="border-[#292929] border-[1px] rounded-xl lg:rounded-lg p-4 lg:pb-6 mb-4">
       {images && (
-        <div className="flex flex-row items-center gap-x-4 overflow-scroll scroll-smooth">
-          {images.map((image) => (
-            <Image
-              key={image}
-              alt={"Image"}
-              src={image}
-              width={250}
-              height={250}
-              className="rounded-md"
-            />
-          ))}
-        </div>
+        <>
+          {images.length === 1 ? (
+            <div className="flex flex-row items-center justify-center">
+              <Link href={`${images[0]}:orig`} legacyBehavior={true}>
+                <a target="_blank" rel="noopener noreferrer">
+                  <Image
+                    key={images[0]}
+                    alt={"Image"}
+                    src={`${images[0]}:orig`}
+                    width={500}
+                    height={500}
+                    className="rounded-md w-full lg:w-min"
+                  />
+                </a>
+              </Link>
+            </div>
+          ) : (
+            <div className="flex flex-row items-center gap-x-4 overflow-scroll scroll-smooth h-96">
+              {images.map((image) => (
+                <Image
+                  key={image}
+                  alt={"Image"}
+                  src={`${image}:orig`}
+                  width={4096}
+                  height={4096}
+                  className="rounded-md object-fill w-full h-full"
+                />
+              ))}
+            </div>
+          )}
+        </>
       )}
       <h1 className="text-white pt-4">{description}</h1>
       {source && (

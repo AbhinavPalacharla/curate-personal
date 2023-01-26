@@ -5,12 +5,7 @@ import { authOptions } from "@/pages/api/auth/[...nextauth]";
 import { useCollectionStore } from "stores";
 import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
-import type {
-  Collection,
-  Role,
-  Post as PostType,
-  SocialUser,
-} from "@prisma/client";
+import type { Post as PostType, SocialUser } from "@prisma/client";
 import { useEffect } from "react";
 import type { IconName } from "@/utils/iconNames";
 
@@ -20,8 +15,7 @@ const Page: NextPageWithLayout = (props: any) => {
     async () => {
       const {
         data,
-      }: // }: { data: Array<Pick<Collection, "id" | "name" | "icon">> } =
-      {
+      }: {
         data: Array<{
           type: "OWNER" | "MEMBER";
           collection: {
@@ -72,8 +66,6 @@ const Page: NextPageWithLayout = (props: any) => {
       return data;
     },
     {
-      // enabled: !!collectionStore.collection?.id,
-      // refetchInterval: 0,
       refetchInterval: 1,
     }
   );
@@ -117,7 +109,6 @@ const Page: NextPageWithLayout = (props: any) => {
   );
 };
 
-// Page.isLoading = false;
 Page.navbar = true;
 Page.footer = true;
 
@@ -163,10 +154,6 @@ export async function getServerSideProps(context: any) {
   const collections = data.map((role) => {
     return role.collection;
   });
-
-  // const { data: collections } = await axios.get(
-  //   `http://localhost:3000/api/collection/get.collections?userId=${session.user.id}`
-  // );
 
   return {
     props: {
