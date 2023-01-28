@@ -24,7 +24,7 @@ const Post: React.FC<
                     src={`${images[0]}:orig`}
                     width={500}
                     height={500}
-                    className="rounded-md w-full lg:w-auto"
+                    className="rounded-md w-max lg:w-auto"
                   />
                 </a>
               </Link>
@@ -40,7 +40,7 @@ const Post: React.FC<
                   blurDataURL={`${image}:small`}
                   width={4096}
                   height={4096}
-                  className="rounded-md h-full w-full lg:w-auto"
+                  className="rounded-md h-full w-max lg:w-auto"
                 />
               ))}
             </div>
