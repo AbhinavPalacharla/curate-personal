@@ -40,7 +40,7 @@ const Post: React.FC<
                   blurDataURL={`${image}:small`}
                   width={4096}
                   height={4096}
-                  className="rounded-md h-full w-max lg:w-auto"
+                  className="rounded-md h-full min-w-max lg:w-auto"
                 />
               ))}
             </div>
