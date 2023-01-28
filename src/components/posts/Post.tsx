@@ -24,13 +24,13 @@ const Post: React.FC<
                     src={`${images[0]}:orig`}
                     width={500}
                     height={500}
-                    className="rounded-md w-full lg:w-min"
+                    className="rounded-md"
                   />
                 </a>
               </Link>
             </div>
           ) : (
-            <div className="flex flex-row items-center gap-x-4 overflow-scroll scroll-smooth h-96">
+            <div className="flex flex-row items-center gap-x-4 overflow-x-scroll scroll-smooth h-96">
               {images.map((image) => (
                 <Image
                   key={image}
@@ -40,7 +40,7 @@ const Post: React.FC<
                   blurDataURL={`${image}:small`}
                   width={4096}
                   height={4096}
-                  className="rounded-md object-fill w-full h-full"
+                  className="rounded-md h-full w-auto"
                 />
               ))}
             </div>
