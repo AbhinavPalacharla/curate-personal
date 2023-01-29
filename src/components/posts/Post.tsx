@@ -11,7 +11,7 @@ const Post: React.FC<
   }
 > = ({ images, description, source, createdAt, socialUser: { username } }) => {
   return (
-    <div className="border-[#292929] border-[1px] rounded-xl lg:rounded-lg p-4 lg:pb-6 mb-4">
+    <div className="border-[#292929] border-[1px] rounded-lg lg:rounded-md p-4 lg:pb-6 mb-4">
       {images && (
         <>
           {images.length === 1 ? (
