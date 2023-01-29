@@ -84,7 +84,7 @@ const Navbar: React.FC<{ loading: boolean }> = ({ loading }) => {
                 items={data?.map((collection) => ({
                   name: collection.name,
                   icon: collection.icon
-                    ? getIconByName(collection.icon as IconName)
+                    ? getIconByName({ name: collection.icon as IconName })
                     : "",
                   onClick: () => {
                     store.setCollection({

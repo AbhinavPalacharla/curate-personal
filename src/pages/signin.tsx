@@ -7,7 +7,7 @@ import { useSession } from "next-auth/react";
 import { unstable_getServerSession } from "next-auth/next";
 import { authOptions } from "@/pages/api/auth/[...nextauth]";
 
-const Page: NextPageWithLayout = () => {
+const Page: NextPageWithLayout = (props: any) => {
   const { data: session } = useSession();
   return (
     <div className="flex flex-row lg:gap-x-32 lg:items-center justify-center lg:h-screen">

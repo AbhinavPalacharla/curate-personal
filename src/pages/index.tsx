@@ -138,8 +138,8 @@ export async function getServerSideProps(context: any) {
   }
 
   const { data } = (await axios.get(
-    `https://curate-personal.vercel.app/api/collection/get.collections?userId=${session.user.id}`
-    // `http://localhost:3000/api/collection/get.collections?userId=${session.user.id}`
+    // `https://curate-personal.vercel.app/api/collection/get.collections?userId=${session.user.id}`
+    `http://localhost:3000/api/collection/get.collections?userId=${session.user.id}`
   )) as {
     data: Array<{
       type: "OWNER" | "MEMBER";
