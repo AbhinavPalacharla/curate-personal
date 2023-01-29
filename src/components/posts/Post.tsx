@@ -16,31 +16,34 @@ const Post: React.FC<
         <>
           {images.length === 1 ? (
             <div className="flex flex-row items-center justify-center">
-              <Link href={`${images[0]}:orig`} legacyBehavior={true}>
-                <a target="_blank" rel="noopener noreferrer">
-                  <Image
-                    key={images[0]}
-                    alt={"Image"}
-                    src={`${images[0]}:orig`}
-                    width={500}
-                    height={500}
-                    className="rounded-md w-max lg:w-auto"
-                  />
-                </a>
-              </Link>
+              {/* <Link href={`${images[0]}:orig`} legacyBehavior={true}> */}
+              {/* <a target="_blank" rel="noopener noreferrer"> */}
+              <Image
+                key={images[0]}
+                alt={"Image"}
+                src={`${images[0]}:orig`}
+                width={500}
+                height={500}
+                className="rounded-sm"
+              />
+              {/* </a> */}
+              {/* </Link> */}
             </div>
           ) : (
-            <div className="flex flex-row items-center gap-x-4 overflow-x-scroll scroll-smooth h-96">
+            <div className="flex flex-row overflow-x-scroll scroll-smooth gap-x-4">
               {images.map((image) => (
                 <Image
                   key={image}
                   alt={"Image"}
                   src={`${image}:orig`}
-                  placeholder="blur"
-                  blurDataURL={`${image}:small`}
                   width={4096}
                   height={4096}
-                  className="rounded-md h-full min-w-max lg:w-auto"
+                  className="h-96 max-w-none w-auto rounded-sm"
+                  // className="position-relative rounded-md lg:w-auto"
+                  // fill
+                  // width={100%}
+                  // height={100%}
+                  // className="rounded-md h-4 w-4"
                 />
               ))}
             </div>
