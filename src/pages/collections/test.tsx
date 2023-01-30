@@ -34,7 +34,7 @@ const User: React.FC<{
           {role === "OWNER" ? "Owner" : "Member"}
         </h1>
       </div> */}
-      <h1 className="text-[#969696] text-sm font-light italic invisible lg:visible">
+      <h1 className="text-[#969696] ml-6 text-sm font-light italic invisible lg:visible">
         @{username}
       </h1>
       <button className="text-[#969696] hover:text-red-500 text-sm font-light absolute right-2">
@@ -125,7 +125,11 @@ const Page: NextPageWithLayout = (props: any) => {
               <div />
             </div>
             <div className="flex flex-col overflow-y-scroll h-40 scrollbar-hide">
-              <User id="@andrewh" name="Andrew Hale" username="andrewh" />
+              <User
+                id="@madiklob"
+                name="Madeline Kloberdanz"
+                username="madiklob"
+              />
               <div className="divide-y divide-dotted divide-[#282828] py-2">
                 <div />
                 <div />
@@ -155,6 +159,11 @@ const Page: NextPageWithLayout = (props: any) => {
               <User id="@paulb" name="Paul Bokelman" username="paulb" />
             </div>
           </div>
+          {/* <button className="border-[1px] border-red-500 px-1 py-0.5 rounded-md mt-8">
+            <h1 className="text-red-500 text-sm font-light">
+              Delete Collection
+            </h1>
+          </button> */}
         </div>
       </div>
       <div className="invisible lg:visible">

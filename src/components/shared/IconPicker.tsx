@@ -23,7 +23,7 @@ const IconPicker: React.FC = () => {
           <DropdownMenu.Content
             sideOffset={10}
             align="start"
-            className="border-[1px] border-[#282828] bg-black/[0.5] shadow-md shadow-black/80 backdrop-blur-md flex flex-wrap h-52 w-[15.2rem] overflow-y-scroll p-3 rounded-md"
+            className="border-[1px] border-[#282828] bg-black/[0.5] shadow-md shadow-black/80 backdrop-blur-md flex flex-wrap h-52 w-[15.2rem] overflow-y-scroll p-3 rounded-md scrollbar-hide"
           >
             {iconNames.map((iconName) => {
               return (
