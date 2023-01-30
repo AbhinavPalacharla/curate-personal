@@ -27,7 +27,10 @@ const IconPicker: React.FC = () => {
           >
             {iconNames.map((iconName) => {
               return (
-                <DropdownMenu.Item className="hover:ring-0 hover:outline-none ring-0 outline-none">
+                <DropdownMenu.Item
+                  key={iconName}
+                  className="hover:ring-0 hover:outline-none ring-0 outline-none"
+                >
                   {getIconByName({
                     name: iconName as IconName,
                     css: "lg:hover:text-white active:text-white p-2 lg:hover:bg-[#141414] active:bg-[#141414] border-[0.1px] border-[#141414] rounded-md",
