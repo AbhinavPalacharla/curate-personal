@@ -14,6 +14,7 @@ import { NullIcon } from "@/components/shared";
 import { useState } from "react";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { IconPicker } from "@/components/shared/NewIconPicker";
 
 const Divider: React.FC = () => {
   return (
@@ -31,7 +32,7 @@ const Collection: React.FC<{
 }> = ({ icon, name, members }) => {
   return (
     <div className="flex flex-row items-center py-4 relative">
-      {icon ? <>{getIconByName({ name: icon })}</> : <NullIcon />}
+      {getIconByName({ name: icon })}
       <h1 className="text-white text-sm ml-8 w-40 truncate">{name}</h1>
       <h1 className="text-[#969696] text-sm font-light italic ml-8 invisible lg:visible">
         {members > 1 ? `${members} members` : "Just You..."}
@@ -43,7 +44,9 @@ const Collection: React.FC<{
   );
 };
 
-const NewCollection: React.FC = () => {
+const NewCollection: React.FC<{
+  setShowNewCollection: (state: boolean) => void;
+}> = ({ setShowNewCollection }) => {
   const schema = z.object({
     name: z.string().min(1).max(20),
   });
@@ -58,7 +61,7 @@ const NewCollection: React.FC = () => {
     resolver: zodResolver(schema),
   });
 
-  const [icon, setIcon] = useState<IconName | null>(null);
+  const [icon, setIcon] = useState<IconName>();
 
   const queryClient = useQueryClient();
 
@@ -69,6 +72,7 @@ const NewCollection: React.FC = () => {
     {
       onSuccess: () => {
         queryClient.invalidateQueries(["collections"]);
+        setShowNewCollection(false);
       },
     }
   );
@@ -81,33 +85,9 @@ const NewCollection: React.FC = () => {
     <div>
       <form onSubmit={handleSubmit(SubmitHandler)}>
         <div className="flex flex-row items-center py-4 relative">
-          <DropdownMenu.Root>
-            <DropdownMenu.Trigger className="ring-0 outline-none">
-              <NullIcon />
-            </DropdownMenu.Trigger>
-            <DropdownMenu.Portal>
-              <DropdownMenu.Content
-                sideOffset={10}
-                align="start"
-                className="border-[1px] border-[#282828] bg-black/[0.5] shadow-md shadow-black/80 backdrop-blur-md flex flex-wrap h-52 w-[15.2rem] overflow-y-scroll p-3 rounded-md scrollbar-hide"
-              >
-                {iconNames.map((iconName) => {
-                  return (
-                    <DropdownMenu.Item
-                      key={iconName}
-                      className="hover:ring-0 hover:outline-none ring-0 outline-none"
-                    >
-                      {getIconByName({
-                        name: iconName as IconName,
-                        css: "lg:hover:text-white active:text-white p-2 lg:hover:bg-[#282828] active:bg-[#282828] border-[0.1px] border-[#141414] rounded-md",
-                        size: 36,
-                      })}
-                    </DropdownMenu.Item>
-                  );
-                })}
-              </DropdownMenu.Content>
-            </DropdownMenu.Portal>
-          </DropdownMenu.Root>
+          <IconPicker setIcon={setIcon}>
+            {getIconByName({ name: icon })}
+          </IconPicker>
           <input
             {...register("name")}
             placeholder="New Collection"
@@ -134,6 +114,7 @@ const NewCollection: React.FC = () => {
 
 const Page: NextPageWithLayout = (props: any) => {
   const { data: session } = useSession();
+  const [showNewCollection, setShowNewCollection] = useState(false);
 
   const { data, isLoading } = useQuery(
     ["collections"],
@@ -158,7 +139,7 @@ const Page: NextPageWithLayout = (props: any) => {
         return role.collection;
       });
 
-      return collections;
+      return collections.reverse();
     },
     {
       initialData: props.collections,
@@ -207,7 +188,12 @@ const Page: NextPageWithLayout = (props: any) => {
           <div className="flex flex-col">
             <div className="flex flex-row justify-between items-center">
               <h1 className="text-[#969696] text-sm font-light">Collections</h1>
-              <button className="flex flex-row items-center gap-x-1 group">
+              <button
+                className="flex flex-row items-center gap-x-1 group"
+                onClick={() => {
+                  setShowNewCollection(true);
+                }}
+              >
                 <Plus
                   className="text-[#969696] lg:group-hover:text-white group-active:text-white"
                   height={18}
@@ -221,7 +207,9 @@ const Page: NextPageWithLayout = (props: any) => {
             <div className="mt-4">
               <Divider />
             </div>
-            <NewCollection />
+            {showNewCollection && (
+              <NewCollection setShowNewCollection={setShowNewCollection} />
+            )}
             <div className="flex flex-col h-40 overflow-y-scroll">
               {data.map((collection: any, i: number) => (
                 //{[0, 0, 0, 0, 0].map((collection: any, i: number) => (
@@ -300,9 +288,11 @@ export async function getServerSideProps(context: any) {
     }>;
   };
 
-  const collections = data.map((role) => {
-    return role.collection;
-  });
+  const collections = data
+    .map((role) => {
+      return role.collection;
+    })
+    .reverse();
 
   return {
     props: {

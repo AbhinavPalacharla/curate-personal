@@ -1,4 +1,4 @@
-const iconNames = [
+const iconNames: Array<IconName> = [
   "Svg3DAddHole",
   "Svg3DArcCenterPt",
   "Svg3DArc",

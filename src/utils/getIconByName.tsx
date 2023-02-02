@@ -1,3 +1,4 @@
+import { NullIcon } from "@/components/shared";
 import * as icons from "iconoir-react";
 import type { IconName } from "./iconNames";
 
@@ -5,11 +6,16 @@ const getIconByName = ({
   name,
   css,
   size,
+  nullIcon,
 }: {
-  name: IconName;
+  name?: IconName;
   css?: string;
   size?: number;
+  nullIcon?: {
+    size: "REGULAR" | "LARGE";
+  };
 }) => {
+  if (!name) return <NullIcon size={nullIcon?.size} />;
   const Icon = icons[name as keyof typeof icons] as React.FC<{
     className: string;
     height: number;

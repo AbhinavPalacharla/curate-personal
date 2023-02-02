@@ -11,7 +11,8 @@ import { getIconByName } from "@/utils";
 import { City, LongArrowUpLeft, Plus } from "iconoir-react";
 import { Roboto_Mono } from "@next/font/google";
 import Avatar from "boring-avatars";
-import { IconPicker } from "@/components/shared";
+import { IconPicker } from "@/components/shared/NewIconPicker";
+import { useState } from "react";
 
 const robotoMono = Roboto_Mono();
 
@@ -44,6 +45,7 @@ const User: React.FC<{
 };
 
 const Page: NextPageWithLayout = (props: any) => {
+  const [icon, setIcon] = useState<IconName>();
   return (
     <div className="flex flex-row md:gap-x-16 lg:gap-x-32 md:items-center md:h-screen lg:items-center justify-center lg:h-screen">
       <div className="flex flex-col mt-24 ml-8 md:m-0 lg:m-0">
@@ -84,17 +86,23 @@ const Page: NextPageWithLayout = (props: any) => {
           </div>
           <div className="mt-4">
             <div className="flex flex-row items-center gap-x-12">
-              {/* <div className="flex flex-row items-center gap-x-4">
+              <div className="flex flex-row items-center gap-x-4">
                 <h1
                   className={`text-sm text-[#969696] font-light ${robotoMono.className}`}
                 >
                   Icon
                 </h1>
-                <div className="border-[1px] border-[#282828] p-2 rounded-md text-[#969696] hover:text-white">
-                  <City height={20} width={20} />
-                </div>
-              </div> */}
-              <IconPicker />
+                <IconPicker setIcon={setIcon}>
+                  <div className="border-[1px] border-[#282828] p-2 rounded-md text-[#969696] hover:text-white">
+                    {/* <City height={20} width={20} /> */}
+                    {getIconByName({
+                      name: icon,
+                      nullIcon: { size: "LARGE" },
+                    })}
+                  </div>
+                </IconPicker>
+              </div>
+              {/* <IconPicker /> */}
               <div className="flex flex-row items-center gap-x-4">
                 <h1
                   className={`text-sm text-[#969696] font-light ${robotoMono.className}`}
