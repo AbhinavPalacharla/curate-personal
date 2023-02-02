@@ -36,7 +36,7 @@ const Layout: React.FC<{
         {/* <div className="sm:px-2 md:px-12 lg:px-48 sm:flex sm:flex-row sm:items-center">
           {children}
         </div> */}
-        <div className="px-2 md:px-12 lg:px-48">{children}</div>
+        <div className="px-2 md:px-12 lg:px-40">{children}</div>
 
         {footer && (
           <div className="fixed bottom-0 left-0 right-0">
