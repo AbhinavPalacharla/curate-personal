@@ -46,7 +46,7 @@ const Tags: FC<{ tags?: Array<string> }> = ({ tags }) => {
           },
           {
             name: "Gift Ideas",
-            icon: getIconByName({ name: "Gift" }),
+            // icon: getIconByName({ name: "Gift" }),
           },
         ]}
       >

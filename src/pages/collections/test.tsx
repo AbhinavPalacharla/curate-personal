@@ -28,15 +28,14 @@ const User: React.FC<{
         size={25}
       />
       <h1 className="text-white text-sm ml-8 w-36 truncate">{name}</h1>
-      {/* <div className="rounded-full px-2 py-[0.125rem] ml-8 border-[1px] border-[#282828] flex flex-row items-center gap-x-2">
-        <div className="bg-[#969696] h-2 w-2 rounded-full" />
-        <h1 className="text-[#969696] text-xs">
-          {role === "OWNER" ? "Owner" : "Member"}
-        </h1>
-      </div> */}
-      <h1 className="text-[#969696] ml-6 text-sm font-light italic invisible lg:visible">
+      <button
+        className="text-[#969696] hover:text-white ml-6 text-sm font-light italic invisible lg:visible"
+        onClick={() => {
+          navigator.clipboard.writeText(username);
+        }}
+      >
         @{username}
-      </h1>
+      </button>
       <button className="text-[#969696] hover:text-red-500 text-sm font-light absolute right-2">
         remove
       </button>
@@ -46,13 +45,15 @@ const User: React.FC<{
 
 const Page: NextPageWithLayout = (props: any) => {
   return (
-    <div className="flex flex-row lg:gap-x-32 lg:items-center justify-center lg:h-screen">
-      <div className="flex flex-col mt-24 ml-8 lg:m-0">
+    <div className="flex flex-row md:gap-x-16 lg:gap-x-32 md:items-center md:h-screen lg:items-center justify-center lg:h-screen">
+      <div className="flex flex-col mt-24 ml-8 md:m-0 lg:m-0">
         <div className="flex flex-col gap-y-1">
-          <h1 className="text-3xl font-light italic text-white">
+          <h1 className="text-[1.8rem] font-light italic text-white">
             Dead simple inspiration
           </h1>
-          <h1 className="text-3xl font-light italic text-white">curation</h1>
+          <h1 className="text-[1.8rem] font-light italic text-white">
+            curation
+          </h1>
         </div>
         <h1 className="w-[20rem] md:w-[26rem] text-sm text-[#969696] mt-6">
           Curate is a simple service to compile all your inspiration into one
@@ -113,7 +114,7 @@ const Page: NextPageWithLayout = (props: any) => {
                   Members
                 </h1> */}
               </button>
-              <div className="flex flex-row gap-x-1">
+              <div className="flex flex-row items-center gap-x-1">
                 <Plus className="text-[#969696]" height={18} width={18} />
                 <h1 className="text-sm text-[#969696] font-light">
                   Add Member
@@ -166,7 +167,7 @@ const Page: NextPageWithLayout = (props: any) => {
           </button> */}
         </div>
       </div>
-      <div className="invisible lg:visible">
+      <div className="invisible md:visible lg:visible">
         <Image src={CurateHero} alt="logo" />
       </div>
     </div>

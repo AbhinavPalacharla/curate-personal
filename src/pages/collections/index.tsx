@@ -1,29 +1,133 @@
 import type { NextPageWithLayout } from "@/components/layout";
 import axios from "axios";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { unstable_getServerSession } from "next-auth/next";
 import { authOptions } from "@/pages/api/auth/[...nextauth]";
-import type { IconName } from "@/utils/iconNames";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
 import CurateHero from "/public/curate-hero.svg";
-import { getIconByName } from "@/utils";
+import { Plus } from "iconoir-react";
+import { useForm } from "react-hook-form";
+import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
+import { getIconByName, IconName, iconNames } from "@/utils";
+import { NullIcon } from "@/components/shared";
+import { useState } from "react";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+
+const Divider: React.FC = () => {
+  return (
+    <div className="divide-y divide-dotted divide-[#282828]">
+      <div />
+      <div />
+    </div>
+  );
+};
 
 const Collection: React.FC<{
-  icon: IconName;
+  icon?: IconName;
   name: string;
   members: number;
 }> = ({ icon, name, members }) => {
   return (
-    <div className="flex flex-row items-center relative py-1">
-      {getIconByName({ name: icon })}
+    <div className="flex flex-row items-center py-4 relative">
+      {icon ? <>{getIconByName({ name: icon })}</> : <NullIcon />}
       <h1 className="text-white text-sm ml-8 w-40 truncate">{name}</h1>
-      <h1 className="text-[#969696] text-sm font-light italic ml-8">
+      <h1 className="text-[#969696] text-sm font-light italic ml-8 invisible lg:visible">
         {members > 1 ? `${members} members` : "Just You..."}
       </h1>
-      <button className="text-[#969696] text-sm font-light underline underline-offset-1 absolute right-2">
+      <button className="text-[#969696] lg:hover:text-white active:text-white text-sm font-light underline underline-offset-1 absolute right-2">
         edit
       </button>
+    </div>
+  );
+};
+
+const NewCollection: React.FC = () => {
+  const schema = z.object({
+    name: z.string().min(1).max(20),
+  });
+
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors, isValid, isLoading, isDirty },
+  } = useForm({
+    mode: "onBlur",
+    resolver: zodResolver(schema),
+  });
+
+  const [icon, setIcon] = useState<IconName | null>(null);
+
+  const queryClient = useQueryClient();
+
+  const createCollection = useMutation(
+    ({ name }: { name: string }) => {
+      return axios.post("/api/collection/create.collection", { name, icon });
+    },
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(["collections"]);
+      },
+    }
+  );
+
+  const SubmitHandler = (data: any) => {
+    createCollection.mutate({ name: data.name });
+  };
+
+  return (
+    <div>
+      <form onSubmit={handleSubmit(SubmitHandler)}>
+        <div className="flex flex-row items-center py-4 relative">
+          <DropdownMenu.Root>
+            <DropdownMenu.Trigger className="ring-0 outline-none">
+              <NullIcon />
+            </DropdownMenu.Trigger>
+            <DropdownMenu.Portal>
+              <DropdownMenu.Content
+                sideOffset={10}
+                align="start"
+                className="border-[1px] border-[#282828] bg-black/[0.5] shadow-md shadow-black/80 backdrop-blur-md flex flex-wrap h-52 w-[15.2rem] overflow-y-scroll p-3 rounded-md scrollbar-hide"
+              >
+                {iconNames.map((iconName) => {
+                  return (
+                    <DropdownMenu.Item
+                      key={iconName}
+                      className="hover:ring-0 hover:outline-none ring-0 outline-none"
+                    >
+                      {getIconByName({
+                        name: iconName as IconName,
+                        css: "lg:hover:text-white active:text-white p-2 lg:hover:bg-[#282828] active:bg-[#282828] border-[0.1px] border-[#141414] rounded-md",
+                        size: 36,
+                      })}
+                    </DropdownMenu.Item>
+                  );
+                })}
+              </DropdownMenu.Content>
+            </DropdownMenu.Portal>
+          </DropdownMenu.Root>
+          <input
+            {...register("name")}
+            placeholder="New Collection"
+            className="bg-black text-white text-sm placeholder:text-[#282828] placeholder:italic ml-8 w-40 border-transparent focus:border-transparent focus:ring-0 focus:outline-none focus:ring-[#000000]"
+          />
+          <div className="absolute right-2 flex flex-row items-center gap-x-4">
+            <button
+              type="submit"
+              className="text-[#969696] lg:hover:text-white active:text-white text-sm font-light underline underline-offset-1"
+              // type="submit"
+            >
+              create
+            </button>
+            <button className="text-[#646464] lg:hover:text-white active:text-white text-sm font-light">
+              cancel
+            </button>
+          </div>
+        </div>
+      </form>
+      <Divider />
     </div>
   );
 };
@@ -62,53 +166,92 @@ const Page: NextPageWithLayout = (props: any) => {
     }
   );
 
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm();
+
+  const createCollection = useMutation(
+    ({ name }: { name: string }) => {
+      return axios.post("/api/collections/create.collection", { name });
+    },
+    {
+      onSuccess: () => {
+        console.log("success");
+      },
+    }
+  );
+
+  const SubmitHandler = (data: any) => {
+    createCollection.mutate({ name: data.name });
+  };
+
   return (
-    <div className="flex flex-row lg:gap-x-32 lg:items-center justify-center lg:h-screen">
-      <div className="flex flex-col mt-24 ml-8 lg:m-0">
+    <div className="flex flex-row md:gap-x-16 lg:gap-x-32 md:items-center md:h-screen lg:items-center justify-center lg:h-screen">
+      <div className="flex flex-col mt-24 ml-8 md:m-0 lg:m-0">
         <div className="flex flex-col gap-y-1">
-          <h1 className="text-3xl font-light italic text-white">
+          <h1 className="text-[1.8rem] font-light italic text-white">
             Dead simple inspiration
           </h1>
-          <h1 className="text-3xl font-light italic text-white">curation</h1>
+          <h1 className="text-[1.8rem] font-light italic text-white">
+            curation
+          </h1>
         </div>
         <h1 className="w-[20rem] md:w-[26rem] text-sm text-[#969696] mt-6">
           Curate is a simple service to compile all your inspiration into one
           feed
         </h1>
         <div className="mt-12">
-          <div className="flex flex-col gap-y-2">
+          <div className="flex flex-col">
             <div className="flex flex-row justify-between items-center">
               <h1 className="text-[#969696] text-sm font-light">Collections</h1>
-              <h1 className="text-[#969696] text-sm font-light underline underline-offset-1">
-                New Collection
-              </h1>
+              <button className="flex flex-row items-center gap-x-1 group">
+                <Plus
+                  className="text-[#969696] lg:group-hover:text-white group-active:text-white"
+                  height={18}
+                  width={18}
+                />
+                <h1 className="text-[#969696] lg:group-hover:text-white group-active:text-white text-sm font-light">
+                  New Collection
+                </h1>
+              </button>
             </div>
+            <div className="mt-4">
+              <Divider />
+            </div>
+            <NewCollection />
             <div className="flex flex-col h-40 overflow-y-scroll">
-              {data.map((collection: any) => (
+              {data.map((collection: any, i: number) => (
+                //{[0, 0, 0, 0, 0].map((collection: any, i: number) => (
                 <>
-                  <div className="divide-y divide-dotted divide-[#282828]">
-                    <div />
-                    <div />
-                  </div>
                   <Collection
-                    key={collection.id}
+                    key={i}
                     icon={collection.icon}
                     name={collection.name}
                     members={(() => {
                       let users = 0;
-                      collection.roles.forEach((role: any) => {
+                      collection.roles.map((role: any) => {
                         users += role._count.users;
                       });
                       return users;
                     })()}
                   />
+                  {/* <Collection
+                    key={i}
+                    icon={"City"}
+                    name={"Architecture Inspo."}
+                    members={2}
+                  /> */}
+                  {i !== data.length - 1 && <Divider key={i} />}
                 </>
               ))}
             </div>
           </div>
         </div>
       </div>
-      <div className="invisible lg:visible">
+      <div className="invisible md:visible lg:visible">
         <Image src={CurateHero} alt="logo" />
       </div>
     </div>

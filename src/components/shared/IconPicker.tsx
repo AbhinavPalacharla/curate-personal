@@ -33,7 +33,7 @@ const IconPicker: React.FC = () => {
                 >
                   {getIconByName({
                     name: iconName as IconName,
-                    css: "lg:hover:text-white active:text-white p-2 lg:hover:bg-[#141414] active:bg-[#141414] border-[0.1px] border-[#141414] rounded-md",
+                    css: "lg:hover:text-white active:text-white p-2 lg:hover:bg-[#282828] active:bg-[#282828] border-[0.1px] border-[#141414] rounded-md",
                     size: 36,
                   })}
                 </DropdownMenu.Item>
