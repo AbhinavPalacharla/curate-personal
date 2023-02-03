@@ -12,8 +12,7 @@ const DropdownItem: React.FC<Item> = ({ name, icon, onClick }) => {
         onClick={onClick}
       >
         <div className="flex flex-row items-center gap-x-2 hover:ring-0 hover:outline-none ring-0 outline-none">
-          {icon ? icon : <NullIcon />}
-
+          <div className="w-5">{icon ? icon : <NullIcon size={"SMALL"} />}</div>
           <div className="flex flex-row w-40">
             <span className="text-sm text-white font-light block truncate">
               {name}

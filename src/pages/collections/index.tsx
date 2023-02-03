@@ -32,7 +32,8 @@ const Collection: React.FC<{
 }> = ({ icon, name, members }) => {
   return (
     <div className="flex flex-row items-center py-4 relative">
-      {getIconByName({ name: icon })}
+      {/* <div className={`${!icon && "pl-1"}`}> */}
+      <div className="w-6">{getIconByName({ name: icon })}</div>
       <h1 className="text-white text-sm ml-8 w-40 truncate">{name}</h1>
       <h1 className="text-[#969696] text-sm font-light italic ml-8 invisible lg:visible">
         {members > 1 ? `${members} members` : "Just You..."}
@@ -86,7 +87,7 @@ const NewCollection: React.FC<{
       <form onSubmit={handleSubmit(SubmitHandler)}>
         <div className="flex flex-row items-center py-4 relative">
           <IconPicker setIcon={setIcon}>
-            {getIconByName({ name: icon })}
+            <div className="w-6">{getIconByName({ name: icon })}</div>
           </IconPicker>
           <input
             {...register("name")}
@@ -101,7 +102,10 @@ const NewCollection: React.FC<{
             >
               create
             </button>
-            <button className="text-[#646464] lg:hover:text-white active:text-white text-sm font-light">
+            <button
+              className="text-[#646464] lg:hover:text-white active:text-white text-sm font-light"
+              onClick={() => setShowNewCollection(false)}
+            >
               cancel
             </button>
           </div>
