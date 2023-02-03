@@ -1,15 +1,14 @@
 const NullIcon: React.FC<{ size?: "REGULAR" | "LARGE" }> = ({ size }) => {
   if (size === "LARGE") {
     return (
-      <div className="flex flex-row items-center w-[1.21rem] justify-between">
-        <div className="flex flex-col items-center h-[1.21rem] justify-between">
-          <div className="bg-[#969696] h-[0.19rem] w-[0.19rem] rounded-full" />
-
-          <div className="bg-[#969696] h-[0.19rem] w-[0.19rem] rounded-full" />
+      <div className="flex flex-row items-center min-w-[1.21rem] max-w-[1.21rem] justify-between px-0.5">
+        <div className="flex flex-col items-center min-h-[1.21rem] max-h-[1.21rem] justify-between py-0.5">
+          <div className="bg-[#969696] h-[0.16rem] w-[0.16rem] rounded-full" />
+          <div className="bg-[#969696] h-[0.16rem] w-[0.16rem] rounded-full" />
         </div>
-        <div className="flex flex-col items-center h-[1.21rem] justify-between">
-          <div className="bg-[#969696] h-[0.19rem] w-[0.19rem] rounded-full" />
-          <div className="bg-[#969696] h-[0.19rem] w-[0.19rem] rounded-full" />
+        <div className="flex flex-col items-center min-h-[1.21rem] max-h-[1.21rem] justify-between py-0.5">
+          <div className="bg-[#969696] h-[0.16rem] w-[0.16rem] rounded-full" />
+          <div className="bg-[#969696] h-[0.16rem] w-[0.16rem] rounded-full" />
         </div>
       </div>
     );
