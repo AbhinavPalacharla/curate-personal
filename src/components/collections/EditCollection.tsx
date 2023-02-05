@@ -1,6 +1,5 @@
 import Avatar from "boring-avatars";
-import { IconPicker } from "@/components/shared/NewIconPicker";
-import { Divider } from "@/components/shared";
+import { IconPicker, Divider } from "@/components/shared";
 import { useState, useEffect } from "react";
 import { IconName, getIconByName } from "@/utils";
 import { City, LongArrowUpLeft, Plus } from "iconoir-react";

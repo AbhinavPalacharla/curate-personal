@@ -14,7 +14,7 @@ import { NullIcon } from "@/components/shared";
 import { useState } from "react";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { IconPicker } from "@/components/shared/NewIconPicker";
+import { IconPicker } from "@/components/shared";
 import { EditCollection } from "@/components/collections";
 import { useRouter } from "next/router";
 

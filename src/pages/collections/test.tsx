@@ -11,7 +11,7 @@ import { getIconByName } from "@/utils";
 import { City, LongArrowUpLeft, Plus } from "iconoir-react";
 import { Roboto_Mono } from "@next/font/google";
 import Avatar from "boring-avatars";
-import { IconPicker } from "@/components/shared/NewIconPicker";
+import { IconPicker } from "@/components/shared";
 import { useState } from "react";
 
 const robotoMono = Roboto_Mono();

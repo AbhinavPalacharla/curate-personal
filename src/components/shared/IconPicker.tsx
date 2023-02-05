@@ -5,19 +5,15 @@ import { getIconByName, IconName, iconNames } from "@/utils";
 
 const robotoMono = Roboto_Mono();
 
-const IconPicker: React.FC = () => {
+const IconPicker: React.FC<{
+  children: React.ReactNode;
+  setIcon: (iconName: IconName) => void;
+}> = ({ children, setIcon }) => {
   return (
     <div className="flex flex-row items-center gap-x-4">
-      <h1
-        className={`text-sm text-[#969696] font-light ${robotoMono.className}`}
-      >
-        Icon
-      </h1>
       <DropdownMenu.Root>
         <DropdownMenu.Trigger className="ring-0 outline-none">
-          <div className="border-[1px] border-[#282828] p-2 rounded-md text-[#969696] hover:text-white">
-            <City height={20} width={20} />
-          </div>
+          {children}
         </DropdownMenu.Trigger>
         <DropdownMenu.Portal>
           <DropdownMenu.Content
@@ -30,6 +26,9 @@ const IconPicker: React.FC = () => {
                 <DropdownMenu.Item
                   key={iconName}
                   className="hover:ring-0 hover:outline-none ring-0 outline-none"
+                  onClick={() => {
+                    setIcon(iconName);
+                  }}
                 >
                   {getIconByName({
                     name: iconName as IconName,
