@@ -2,13 +2,12 @@ import Avatar from "boring-avatars";
 import { IconPicker, Divider } from "@/components/shared";
 import { useState, useEffect } from "react";
 import { IconName, getIconByName } from "@/utils";
-import { City, LongArrowUpLeft, Plus } from "iconoir-react";
-import CurateHero from "/public/curate-hero.svg";
+import { LongArrowUpLeft, Plus } from "iconoir-react";
 import { Roboto_Mono } from "@next/font/google";
-import Image from "next/image";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import { Type } from "@prisma/client";
+import { useForm } from "react-hook-form";
 
 const robotoMono = Roboto_Mono();
 
@@ -96,6 +95,10 @@ const EditCollection: React.FC<{
     icon && editCollection.mutate({ icon: icon! });
   }, [icon]);
 
+  const { register, handleSubmit } = useForm({
+    mode: "onBlur",
+  });
+
   return (
     <>
       <div className="flex flex-row items-center justify-between">
@@ -143,16 +146,29 @@ const EditCollection: React.FC<{
               </div>
             </IconPicker>
           </div>
-          <div className="flex flex-row items-center gap-x-4">
+          <form
+            className="flex flex-row items-center gap-x-4"
+            onSubmit={handleSubmit((data) => {
+              editCollection.mutate({ name: data.name });
+            })}
+            onBlur={handleSubmit((data) => {
+              editCollection.mutate({ name: data.name });
+            })}
+          >
             <h1
               className={`text-sm text-[#969696] font-light ${robotoMono.className}`}
             >
               Name
             </h1>
-            <h1 className="text-sm text-[#969696] hover:text-white">
+            <input
+              className="bg-black text-white placeholder:text-[#969696] hover:text-white text-sm focus:ring-0 focus:outline-none focus:placeholder:text-[#282828]"
+              placeholder={data?.name}
+              {...register("name")}
+            />
+            {/* <h1 className="text-sm text-[#969696] hover:text-white">
               {data?.name}
-            </h1>
-          </div>
+            </h1> */}
+          </form>
         </div>
       </div>
       <div className="mt-8 px-2">

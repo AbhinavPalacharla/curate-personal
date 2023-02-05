@@ -3,14 +3,11 @@ import axios from "axios";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { unstable_getServerSession } from "next-auth/next";
 import { authOptions } from "@/pages/api/auth/[...nextauth]";
-import { useSession } from "next-auth/react";
 import Image from "next/image";
 import CurateHero from "/public/curate-hero.svg";
 import { Plus, LongArrowUpLeft } from "iconoir-react";
 import { useForm } from "react-hook-form";
-import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 import { getIconByName, IconName, iconNames } from "@/utils";
-import { NullIcon } from "@/components/shared";
 import { useState } from "react";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -107,7 +104,6 @@ const NewCollection: React.FC<{
             <button
               type="submit"
               className="text-[#969696] lg:hover:text-white active:text-white text-sm font-light underline underline-offset-1"
-              // type="submit"
             >
               create
             </button>
