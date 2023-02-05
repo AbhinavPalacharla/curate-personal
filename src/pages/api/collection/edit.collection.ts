@@ -5,9 +5,6 @@ import { handleError } from "@/utils/handleError";
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   const { id, ...data } = req.body;
 
-  console.log("id", id);
-  console.log("data", data);
-
   try {
     const collection = await prisma.collection.update({
       where: {

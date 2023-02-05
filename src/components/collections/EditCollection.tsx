@@ -13,9 +13,27 @@ const robotoMono = Roboto_Mono();
 
 const User: React.FC<{
   id: string;
+  roleId: string;
   name: string;
   username: string;
-}> = ({ id, name, username }) => {
+  collectionId: string;
+}> = ({ id, roleId, name, username, collectionId }) => {
+  const queryClient = useQueryClient();
+
+  const removeUser = useMutation(
+    () => {
+      return axios.post("/api/collection/removeUser.collection", {
+        userId: id,
+        roleId: roleId,
+      });
+    },
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries([collectionId]);
+      },
+    }
+  );
+
   return (
     <div className="flex flex-row items-center relative py-1">
       <Avatar
@@ -32,7 +50,12 @@ const User: React.FC<{
       >
         @{username}
       </button>
-      <button className="text-[#969696] hover:text-red-500 text-sm font-light absolute right-2">
+      <button
+        className="text-[#969696] hover:text-red-500 text-sm font-light absolute right-2"
+        onClick={() => {
+          removeUser.mutate();
+        }}
+      >
         remove
       </button>
     </div>
@@ -58,6 +81,7 @@ const EditCollection: React.FC<{
           name: string;
           icon: IconName;
           roles: Array<{
+            id: string;
             type: Type;
             users: Array<{
               id: string;
@@ -165,9 +189,6 @@ const EditCollection: React.FC<{
               placeholder={data?.name}
               {...register("name")}
             />
-            {/* <h1 className="text-sm text-[#969696] hover:text-white">
-              {data?.name}
-            </h1> */}
           </form>
         </div>
       </div>
@@ -189,16 +210,18 @@ const EditCollection: React.FC<{
           <Divider />
         </div>
         <div className="flex flex-col overflow-y-scroll h-40 scrollbar-hide">
-          {data?.roles[1].users[1] ? (
-            data?.roles[1].users.map((user, i) => (
+          {data?.roles[1]?.users[0] ? (
+            data?.roles[1]?.users.map((user, i) => (
               <>
                 <User
                   key={user.id}
                   id={user.id}
+                  roleId={data?.roles[1].id}
                   name={user.name}
                   username={user.username}
+                  collectionId={collectionId}
                 />
-                {i !== data?.roles[1].users.length - 1 && (
+                {i !== data?.roles[1]?.users.length - 1 && (
                   <div className="py-2" key={i}>
                     <Divider />
                   </div>
