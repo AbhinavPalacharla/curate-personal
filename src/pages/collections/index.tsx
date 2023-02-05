@@ -6,7 +6,7 @@ import { authOptions } from "@/pages/api/auth/[...nextauth]";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
 import CurateHero from "/public/curate-hero.svg";
-import { Plus } from "iconoir-react";
+import { Plus, LongArrowUpLeft } from "iconoir-react";
 import { useForm } from "react-hook-form";
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 import { getIconByName, IconName, iconNames } from "@/utils";
@@ -15,6 +15,8 @@ import { useState } from "react";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { IconPicker } from "@/components/shared/NewIconPicker";
+import { EditCollection } from "@/components/collections";
+import { useRouter } from "next/router";
 
 const Divider: React.FC = () => {
   return (
@@ -26,10 +28,12 @@ const Divider: React.FC = () => {
 };
 
 const Collection: React.FC<{
+  id: string;
   icon?: IconName;
   name: string;
   members: number;
-}> = ({ icon, name, members }) => {
+  setEditCollection: (id: string) => void;
+}> = ({ id, icon, name, members, setEditCollection }) => {
   return (
     <div className="flex flex-row items-center py-4 relative">
       {/* <div className={`${!icon && "pl-1"}`}> */}
@@ -38,7 +42,12 @@ const Collection: React.FC<{
       <h1 className="text-[#969696] text-sm font-light italic ml-8 invisible lg:visible">
         {members > 1 ? `${members} members` : "Just You..."}
       </h1>
-      <button className="text-[#969696] lg:hover:text-white active:text-white text-sm font-light underline underline-offset-1 absolute right-2">
+      <button
+        className="text-[#969696] lg:hover:text-white active:text-white text-sm font-light underline underline-offset-1 absolute right-2"
+        onClick={() => {
+          setEditCollection(id);
+        }}
+      >
         edit
       </button>
     </div>
@@ -117,8 +126,8 @@ const NewCollection: React.FC<{
 };
 
 const Page: NextPageWithLayout = (props: any) => {
-  const { data: session } = useSession();
   const [showNewCollection, setShowNewCollection] = useState(false);
+  const [editCollection, setEditCollection] = useState<string | undefined>();
 
   const { data, isLoading } = useQuery(
     ["collections"],
@@ -151,32 +160,27 @@ const Page: NextPageWithLayout = (props: any) => {
     }
   );
 
-  const {
-    register,
-    handleSubmit,
-    watch,
-    formState: { errors },
-  } = useForm();
-
-  const createCollection = useMutation(
-    ({ name }: { name: string }) => {
-      return axios.post("/api/collections/create.collection", { name });
-    },
-    {
-      onSuccess: () => {
-        console.log("success");
-      },
-    }
-  );
-
-  const SubmitHandler = (data: any) => {
-    createCollection.mutate({ name: data.name });
-  };
+  const router = useRouter();
 
   return (
     <div className="flex flex-row md:gap-x-16 lg:gap-x-32 md:items-center md:h-screen lg:items-center justify-center lg:h-screen">
       <div className="flex flex-col mt-24 ml-8 md:m-0 lg:m-0">
-        <div className="flex flex-col gap-y-1">
+        <button
+          className="flex flex-row gap-x-2 group"
+          onClick={() => {
+            router.push("/");
+          }}
+        >
+          <LongArrowUpLeft
+            className="text-[#969696] group-hover:text-white"
+            height={22}
+            width={22}
+          />
+          <h1 className="text-[#969696] group-hover:text-white font-light">
+            Back
+          </h1>
+        </button>
+        <div className="flex flex-col gap-y-1 mt-8">
           <h1 className="text-[1.8rem] font-light italic text-white">
             Dead simple inspiration
           </h1>
@@ -189,58 +193,66 @@ const Page: NextPageWithLayout = (props: any) => {
           feed
         </h1>
         <div className="mt-12">
-          <div className="flex flex-col">
-            <div className="flex flex-row justify-between items-center">
-              <h1 className="text-[#969696] text-sm font-light">Collections</h1>
-              <button
-                className="flex flex-row items-center gap-x-1 group"
-                onClick={() => {
-                  setShowNewCollection(true);
-                }}
-              >
-                <Plus
-                  className="text-[#969696] lg:group-hover:text-white group-active:text-white"
-                  height={18}
-                  width={18}
-                />
-                <h1 className="text-[#969696] lg:group-hover:text-white group-active:text-white text-sm font-light">
-                  New Collection
+          {editCollection ? (
+            <EditCollection setEditCollection={setEditCollection} />
+          ) : (
+            <div className="flex flex-col">
+              <div className="flex flex-row justify-between items-center">
+                <h1 className="text-[#969696] text-sm font-light">
+                  Collections
                 </h1>
-              </button>
-            </div>
-            <div className="mt-4">
-              <Divider />
-            </div>
-            {showNewCollection && (
-              <NewCollection setShowNewCollection={setShowNewCollection} />
-            )}
-            <div className="flex flex-col h-40 overflow-y-scroll">
-              {data.map((collection: any, i: number) => (
-                //{[0, 0, 0, 0, 0].map((collection: any, i: number) => (
-                <>
-                  <Collection
-                    key={i}
-                    icon={collection.icon}
-                    name={collection.name}
-                    members={(() => {
-                      let users = 0;
-                      collection.roles.map((role: any) => {
-                        users += role._count.users;
-                      });
-                      return users;
-                    })()}
+                <button
+                  className="flex flex-row items-center gap-x-1 group"
+                  onClick={() => {
+                    setShowNewCollection(true);
+                  }}
+                >
+                  <Plus
+                    className="text-[#969696] lg:group-hover:text-white group-active:text-white"
+                    height={18}
+                    width={18}
                   />
-                  {/* <Collection
+                  <h1 className="text-[#969696] lg:group-hover:text-white group-active:text-white text-sm font-light">
+                    New Collection
+                  </h1>
+                </button>
+              </div>
+              <div className="mt-4">
+                <Divider />
+              </div>
+              {showNewCollection && (
+                <NewCollection setShowNewCollection={setShowNewCollection} />
+              )}
+              <div className="flex flex-col h-40 overflow-y-scroll">
+                {data.map((collection: any, i: number) => (
+                  //{[0, 0, 0, 0, 0].map((collection: any, i: number) => (
+                  <>
+                    <Collection
+                      key={i}
+                      id={collection.id}
+                      icon={collection.icon}
+                      name={collection.name}
+                      setEditCollection={setEditCollection}
+                      members={(() => {
+                        let users = 0;
+                        collection.roles.map((role: any) => {
+                          users += role._count.users;
+                        });
+                        return users;
+                      })()}
+                    />
+                    {/* <Collection
                     key={i}
                     icon={"City"}
                     name={"Architecture Inspo."}
                     members={2}
                   /> */}
-                  {i !== data.length - 1 && <Divider key={i} />}
-                </>
-              ))}
+                    {i !== data.length - 1 && <Divider key={i} />}
+                  </>
+                ))}
+              </div>
             </div>
-          </div>
+          )}
         </div>
       </div>
       <div className="invisible md:visible lg:visible">
