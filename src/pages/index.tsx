@@ -83,7 +83,7 @@ const Page: NextPageWithLayout = (props: any) => {
   return (
     <div>
       <div className="py-10" />
-      {collectionData && collectionData.posts.length > 0 ? (
+      {collectionData && collectionData?.posts?.length > 0 ? (
         collectionData.posts.map((post) => {
           return (
             <Post
