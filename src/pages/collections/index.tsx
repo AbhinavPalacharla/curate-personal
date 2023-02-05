@@ -129,7 +129,9 @@ const Page: NextPageWithLayout = (props: any) => {
   const [showNewCollection, setShowNewCollection] = useState(false);
   const [editCollection, setEditCollection] = useState<string | undefined>();
 
-  const { data, isLoading } = useQuery(
+  const queryClient = useQueryClient();
+
+  const { data: collections, isLoading } = useQuery(
     ["collections"],
     async () => {
       const {
@@ -160,6 +162,25 @@ const Page: NextPageWithLayout = (props: any) => {
     }
   );
 
+  collections.map(
+    (collection: {
+      id: string;
+      name: string;
+      icon: IconName;
+      roles: Array<{
+        _count: { users: number };
+      }>;
+    }) => {
+      queryClient.prefetchQuery([collection.id], async () => {
+        const { data } = await axios.get(
+          `http://localhost:3000/api/collection/get.editCollection?collectionId=${collection.id}`
+        );
+
+        return data;
+      });
+    }
+  );
+
   const router = useRouter();
 
   return (
@@ -173,10 +194,10 @@ const Page: NextPageWithLayout = (props: any) => {
         >
           <LongArrowUpLeft
             className="text-[#969696] group-hover:text-white"
-            height={22}
-            width={22}
+            height={20}
+            width={20}
           />
-          <h1 className="text-[#969696] group-hover:text-white font-light">
+          <h1 className="text-[#969696] group-hover:text-white font-light text-sm">
             Back
           </h1>
         </button>
@@ -194,7 +215,10 @@ const Page: NextPageWithLayout = (props: any) => {
         </h1>
         <div className="mt-12">
           {editCollection ? (
-            <EditCollection setEditCollection={setEditCollection} />
+            <EditCollection
+              collectionId={editCollection}
+              setEditCollection={setEditCollection}
+            />
           ) : (
             <div className="flex flex-col">
               <div className="flex flex-row justify-between items-center">
@@ -223,12 +247,12 @@ const Page: NextPageWithLayout = (props: any) => {
               {showNewCollection && (
                 <NewCollection setShowNewCollection={setShowNewCollection} />
               )}
-              <div className="flex flex-col h-40 overflow-y-scroll">
-                {data.map((collection: any, i: number) => (
+              <div className="flex flex-col h-40 overflow-y-scroll scrollbar-hide">
+                {collections.map((collection: any, i: number) => (
                   //{[0, 0, 0, 0, 0].map((collection: any, i: number) => (
                   <>
                     <Collection
-                      key={i}
+                      key={collection.id}
                       id={collection.id}
                       icon={collection.icon}
                       name={collection.name}
@@ -247,7 +271,7 @@ const Page: NextPageWithLayout = (props: any) => {
                     name={"Architecture Inspo."}
                     members={2}
                   /> */}
-                    {i !== data.length - 1 && <Divider key={i} />}
+                    {i !== collections.length - 1 && <Divider key={i} />}
                   </>
                 ))}
               </div>

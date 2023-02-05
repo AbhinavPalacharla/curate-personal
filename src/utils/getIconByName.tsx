@@ -12,7 +12,7 @@ const getIconByName = ({
   css?: string;
   size?: number;
   nullIcon?: {
-    size: "REGULAR" | "LARGE";
+    size: "SMALL" | "REGULAR" | "LARGE";
   };
 }) => {
   if (!name) return <NullIcon size={nullIcon?.size} />;
