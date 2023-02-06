@@ -2,7 +2,7 @@ import Avatar from "boring-avatars";
 import { IconPicker, Divider } from "@/components/shared";
 import { useState, useEffect } from "react";
 import { IconName, getIconByName } from "@/utils";
-import { LongArrowUpLeft, Plus } from "iconoir-react";
+import { ArrowRight, LongArrowUpLeft, Plus } from "iconoir-react";
 import { Roboto_Mono } from "@next/font/google";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
@@ -62,11 +62,85 @@ const User: React.FC<{
   );
 };
 
+const AddMember: React.FC<{
+  collectionId: string;
+  roleId?: string;
+  setShowAddMember: (state: boolean) => void;
+}> = ({ collectionId, roleId, setShowAddMember }) => {
+  const { register, watch, handleSubmit } = useForm({ mode: "onBlur" });
+
+  const queryClient = useQueryClient();
+
+  const { data, isLoading, refetch } = useQuery(
+    [watch("username")],
+    async () => {
+      const {
+        data,
+      }: {
+        data: {
+          id: string;
+          username: string;
+        };
+      } = await axios.get(`/api/user/get.user?username=${watch("username")}`);
+
+      return data;
+    },
+    {
+      enabled: watch("username") !== undefined,
+    }
+  );
+
+  const addUser = useMutation(
+    () => {
+      return axios.post("/api/collection/addUser.collection", {
+        userId: data!.id,
+        roleId: roleId!,
+      });
+    },
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries([collectionId]);
+        setShowAddMember(false);
+      },
+    }
+  );
+
+  return (
+    <div className="flex flex-row items-center gap-x-2">
+      {data && (
+        <Avatar
+          name={data.username}
+          colors={["#F88F79", "#F6AA93", "#E94E77", "#F4EAD5", "#D68189"]}
+          size={25}
+        />
+      )}
+      <form
+        className="flex flex-row items-center"
+        onSubmit={handleSubmit((data) => {
+          addUser.mutate();
+        })}
+      >
+        <input
+          {...register("username")}
+          placeholder="@username"
+          className="bg-black w-20 text-white placeholder:text-[#969696] text-sm focus:ring-0 focus:outline-none focus:placeholder:text-[#282828]"
+        />
+        {data && (
+          <button type="submit">
+            <ArrowRight className="text-white" height={18} width={18} />
+          </button>
+        )}
+      </form>
+    </div>
+  );
+};
+
 const EditCollection: React.FC<{
   collectionId: string;
   setEditCollection: (id: string) => void;
 }> = ({ collectionId, setEditCollection }) => {
   const [icon, setIcon] = useState<IconName>();
+  const [addMember, setAddMember] = useState<boolean>(false);
 
   const queryClient = useQueryClient();
 
@@ -192,19 +266,34 @@ const EditCollection: React.FC<{
           </form>
         </div>
       </div>
-      <div className="mt-8 px-2">
+      <div className="mt-8">
         <div className="flex flex-row items-center justify-between">
-          <button className="flex flex-row gap-x-2 group"></button>
-          <button className="flex flex-row items-center gap-x-1 group">
-            <Plus
-              className="text-[#969696] group-hover:text-white"
-              height={18}
-              width={18}
+          <h1
+            className={`text-[#969696] text-sm font-light ${robotoMono.className}`}
+          >
+            Members
+          </h1>
+          {addMember ? (
+            <AddMember
+              collectionId={collectionId}
+              roleId={data?.roles[1]?.id}
+              setShowAddMember={setAddMember}
             />
-            <h1 className="text-sm text-[#969696] group-hover:text-white font-light">
-              Add Member
-            </h1>
-          </button>
+          ) : (
+            <button
+              className="flex flex-row items-center gap-x-1 group"
+              onClick={() => setAddMember(true)}
+            >
+              <Plus
+                className="text-[#969696] group-hover:text-white"
+                height={18}
+                width={18}
+              />
+              <h1 className="text-sm text-[#969696] group-hover:text-white font-light">
+                Add Member
+              </h1>
+            </button>
+          )}
         </div>
         <div className="my-2">
           <Divider />

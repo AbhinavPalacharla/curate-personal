@@ -33,7 +33,6 @@ const Collection: React.FC<{
 }> = ({ id, icon, name, members, setEditCollection }) => {
   return (
     <div className="flex flex-row items-center py-4 relative">
-      {/* <div className={`${!icon && "pl-1"}`}> */}
       <div className="w-6">{getIconByName({ name: icon })}</div>
       <h1 className="text-white text-sm ml-8 w-40 truncate">{name}</h1>
       <h1 className="text-[#969696] text-sm font-light italic ml-8 invisible lg:visible">
@@ -218,7 +217,7 @@ const Page: NextPageWithLayout = (props: any) => {
           ) : (
             <div className="flex flex-col">
               <div className="flex flex-row justify-between items-center">
-                <h1 className="text-[#969696] text-sm font-light">
+                <h1 className={`text-[#969696] text-sm font-light`}>
                   Collections
                 </h1>
                 <button
@@ -237,7 +236,7 @@ const Page: NextPageWithLayout = (props: any) => {
                   </h1>
                 </button>
               </div>
-              <div className="mt-4">
+              <div className="mt-2">
                 <Divider />
               </div>
               {showNewCollection && (
