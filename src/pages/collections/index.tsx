@@ -168,7 +168,7 @@ const Page: NextPageWithLayout = (props: any) => {
     }) => {
       queryClient.prefetchQuery([collection.id], async () => {
         const { data } = await axios.get(
-          `http://localhost:3000/api/collection/get.editCollection?collectionId=${collection.id}`
+          `/api/collection/get.editCollection?collectionId=${collection.id}`
         );
 
         return data;
