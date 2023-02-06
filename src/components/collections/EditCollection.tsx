@@ -2,7 +2,12 @@ import Avatar from "boring-avatars";
 import { IconPicker, Divider } from "@/components/shared";
 import { useState, useEffect } from "react";
 import { IconName, getIconByName } from "@/utils";
-import { ArrowRight, LongArrowUpLeft, Plus } from "iconoir-react";
+import {
+  ArrowRight,
+  ArrowRightCircle,
+  LongArrowUpLeft,
+  Plus,
+} from "iconoir-react";
 import { Roboto_Mono } from "@next/font/google";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
@@ -127,7 +132,11 @@ const AddMember: React.FC<{
         />
         {data && (
           <button type="submit">
-            <ArrowRight className="text-white" height={18} width={18} />
+            <ArrowRight
+              className="text-[#969696] hover:text-white"
+              height={20}
+              width={20}
+            />
           </button>
         )}
       </form>
