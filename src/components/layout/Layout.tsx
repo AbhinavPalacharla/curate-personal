@@ -32,9 +32,12 @@ const Layout: React.FC<{
             <Navbar loading={loading} />
           </div>
         )}
-        {/* <h1 className="text-white">loading: {JSON.stringify(loading)}</h1> */}
 
-        <div className="px-2 lg:px-48">{children}</div>
+        {/* <div className="sm:px-2 md:px-12 lg:px-48 sm:flex sm:flex-row sm:items-center">
+          {children}
+        </div> */}
+        <div className="px-2 md:px-12 lg:px-40">{children}</div>
+
         {footer && (
           <div className="fixed bottom-0 left-0 right-0">
             <Footer loading={loading} />

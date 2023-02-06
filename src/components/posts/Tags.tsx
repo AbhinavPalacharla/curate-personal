@@ -30,23 +30,23 @@ const Tags: FC<{ tags?: Array<string> }> = ({ tags }) => {
         items={[
           {
             name: "Architecture Inspo",
-            icon: getIconByName("City"),
+            icon: getIconByName({ name: "City" }),
           },
           {
             name: "Interior Design",
-            icon: getIconByName("SmallLampAlt"),
+            icon: getIconByName({ name: "SmallLampAlt" }),
           },
           {
             name: "Read Later",
-            icon: getIconByName("BookmarkEmpty"),
+            icon: getIconByName({ name: "BookmarkEmpty" }),
           },
           {
             name: "UI Inspiration",
-            icon: getIconByName("PerspectiveView"),
+            icon: getIconByName({ name: "PerspectiveView" }),
           },
           {
             name: "Gift Ideas",
-            icon: getIconByName("Gift"),
+            // icon: getIconByName({ name: "Gift" }),
           },
         ]}
       >

@@ -83,7 +83,7 @@ const Page: NextPageWithLayout = (props: any) => {
   return (
     <div>
       <div className="py-10" />
-      {collectionData && collectionData.posts.length > 0 ? (
+      {collectionData && collectionData?.posts?.length > 0 ? (
         collectionData.posts.map((post) => {
           return (
             <Post
@@ -138,8 +138,8 @@ export async function getServerSideProps(context: any) {
   }
 
   const { data } = (await axios.get(
-    `https://curate-personal.vercel.app/api/collection/get.collections?userId=${session.user.id}`
-    // `http://localhost:3000/api/collection/get.collections?userId=${session.user.id}`
+    // `https://curate-personal.vercel.app/api/collection/get.collections?userId=${session.user.id}`
+    `http://localhost:3000/api/collection/get.collections?userId=${session.user.id}`
   )) as {
     data: Array<{
       type: "OWNER" | "MEMBER";

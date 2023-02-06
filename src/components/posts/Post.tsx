@@ -30,7 +30,7 @@ const Post: React.FC<
               {/* </Link> */}
             </div>
           ) : (
-            <div className="flex flex-row overflow-x-scroll scroll-smooth gap-x-4">
+            <div className="flex flex-row overflow-x-scroll scroll-smooth gap-x-4 scrollbar-hide">
               {images.map((image) => (
                 <Image
                   key={image}

@@ -6,7 +6,7 @@ import { handleError } from "@/utils/handleError";
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   const session = await unstable_getServerSession(req, res, authOptions);
-  const { userId } = req.query;
+  const { userId, type } = req.query;
 
   let id = "";
 
@@ -23,6 +23,9 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       },
       select: {
         roles: {
+          where: {
+            type: type as "OWNER" | "MEMBER",
+          },
           select: {
             type: true,
             collection: {
@@ -30,6 +33,15 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
                 id: true,
                 name: true,
                 icon: true,
+                roles: {
+                  select: {
+                    _count: {
+                      select: {
+                        users: true,
+                      },
+                    },
+                  },
+                },
               },
             },
           },
@@ -37,13 +49,6 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
             type: "asc",
           },
         },
-        // collections: {
-        //   select: {
-        //     id: true,
-        //     name: true,
-        //     icon: true,
-        //   },
-        // },
       },
     });
 
