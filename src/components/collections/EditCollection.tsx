@@ -136,6 +136,7 @@ const AddMember: React.FC<{
               className="text-[#969696] hover:text-white"
               height={20}
               width={20}
+              strokeWidth={1.7}
             />
           </button>
         )}
