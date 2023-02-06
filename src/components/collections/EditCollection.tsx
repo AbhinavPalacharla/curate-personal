@@ -309,7 +309,7 @@ const EditCollection: React.FC<{
           <Divider />
         </div>
         <div className="flex flex-col overflow-y-scroll h-40 scrollbar-hide">
-          {data?.roles[1]?.users[0] ? (
+          {data?.roles && data?.roles[1]?.users[0] ? (
             data?.roles[1]?.users.map((user, i) => (
               <>
                 <User
