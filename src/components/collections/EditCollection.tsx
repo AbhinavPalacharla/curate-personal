@@ -95,20 +95,51 @@ const AddMember: React.FC<{
     }
   );
 
-  const addUser = useMutation(
-    () => {
+  const addUser = useMutation({
+    mutationFn: () => {
       return axios.post("/api/collection/addUser.collection", {
         userId: data!.id,
         roleId: roleId!,
       });
     },
-    {
-      onSuccess: () => {
-        queryClient.invalidateQueries([collectionId]);
-        setShowAddMember(false);
-      },
-    }
-  );
+    onMutate: async () => {
+      await queryClient.cancelQueries([collectionId]);
+
+      const previousData = queryClient.getQueryData([collectionId]);
+
+      queryClient.setQueryData([collectionId], (oldData: any) => {
+        return {
+          roles: oldData.roles.map((role: any) => {
+            if (role.id === roleId) {
+              return {
+                ...role,
+                users: [
+                  ...role.users,
+                  {
+                    id: data!.id,
+                    username: data!.username,
+                    name: data!.username,
+                  },
+                ],
+              };
+            } else {
+              return role;
+            }
+          }),
+          ...oldData,
+        };
+      });
+
+      return { previousData };
+    },
+    onError: (err, _, context) => {
+      queryClient.setQueryData([collectionId], context!.previousData);
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries([collectionId]);
+      setShowAddMember(false);
+    },
+  });
 
   return (
     <div className="flex flex-row items-center gap-x-2">
