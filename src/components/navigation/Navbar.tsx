@@ -9,8 +9,9 @@ import { useCollectionStore } from "stores";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 
-const Navbar: React.FC<{ loading: boolean }> = ({ loading }) => {
+const Navbar: React.FC<{}> = () => {
   const [flash, setFlash] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   // const { data, isLoading } = useQuery(
   //   ["collections"],
@@ -28,6 +29,10 @@ const Navbar: React.FC<{ loading: boolean }> = ({ loading }) => {
   // );
 
   const router = useRouter();
+
+  // useEffect(() => {
+  //   router.prefetch("/collections");
+  // }, []);
 
   const { data, isLoading } = useQuery(
     ["collections"],
@@ -59,21 +64,24 @@ const Navbar: React.FC<{ loading: boolean }> = ({ loading }) => {
 
   const store = useCollectionStore();
 
-  // useEffect(() => {
-  //   if (loading === false) {
-  //     setFlash(false);
-  //   } else {
-  //     setTimeout(() => {
-  //       setFlash(!flash);
-  //     }, 300);
-  //   }
-  // });
+  useEffect(() => {
+    if (loading === false) {
+      setFlash(false);
+    } else {
+      setTimeout(() => {
+        setFlash(!flash);
+      }, 100);
+    }
+  });
 
   return (
     <div className="flex flex-row items-center">
+      {/* <h1 className="text-white">Loading: {JSON.stringify(loading)}</h1> */}
       <div className="w-[1%] bg-black/80 backdrop-blur-md" />
       <div
-        className={`flex flex-row justify-between items-center px-2 lg:px-12 py-3 mb-8 border-b-[1px] border-[#282828] bg-black/80 backdrop-blur-md w-[98%]`}
+        className={`flex flex-row justify-between items-center px-2 lg:px-12 py-3 mb-8 border-b-[1px] ${
+          flash ? "border-[#565656]" : "border-[#282828]"
+        } bg-black/80 backdrop-blur-md w-[98%]`}
       >
         <div className="flex flex-row items-center gap-x-2">
           {/* <h1 className="text-white">Loading: {JSON.stringify(loading)}</h1> */}
@@ -98,6 +106,12 @@ const Navbar: React.FC<{ loading: boolean }> = ({ loading }) => {
                 name: "Manage Collections",
                 onClick: () => {
                   router.push("/collections");
+                  router.events.on("routeChangeStart", () => {
+                    setLoading(true);
+                  });
+                  router.events.on("routeChangeComplete", () => {
+                    setLoading(false);
+                  });
                 },
               }}
             >
