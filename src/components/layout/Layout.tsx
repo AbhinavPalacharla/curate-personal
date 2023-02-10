@@ -29,7 +29,7 @@ const Layout: React.FC<{
       <div className="bg-black h-full relative">
         {navbar && (
           <div className="fixed top-0 left-0 right-0">
-            <Navbar loading={loading} />
+            <Navbar />
           </div>
         )}
 
