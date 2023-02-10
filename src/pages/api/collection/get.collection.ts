@@ -14,6 +14,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
         id: true,
         name: true,
         icon: true,
+        message: true,
         posts: {
           select: {
             id: true,

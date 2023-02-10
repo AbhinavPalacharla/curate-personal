@@ -15,9 +15,9 @@ const Navbar: React.FC<{}> = () => {
 
   const router = useRouter();
 
-  useEffect(() => {
-    router.prefetch("/collections");
-  }, []);
+  // useEffect(() => {
+  //   router.prefetch("/collections");
+  // }, []);
 
   useEffect(() => {
     if (loading === false) {
@@ -67,9 +67,9 @@ const Navbar: React.FC<{}> = () => {
         } bg-black/80 backdrop-blur-md w-[98%]`}
       >
         <div className="flex flex-row items-center gap-x-2">
-          <h1 className="text-[#969696] font-light text-sm italic">Index</h1>
+          <h1 className="text-[#646464] font-light text-sm italic">Index</h1>
           <>
-            <h1 className="text-[#969696] font-light text-md italic">/</h1>
+            <h1 className="text-[#646464] font-light text-md italic">/</h1>
             <Dropdown
               items={data?.map((collection) => ({
                 name: collection.name,

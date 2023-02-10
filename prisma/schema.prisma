@@ -22,9 +22,10 @@ model User {
 }
 
 model Collection {
-  id   String  @id @default(cuid())
-  name String
-  icon String?
+  id      String  @id @default(cuid())
+  name    String
+  icon    String?
+  message String?
 
   // owner  User   @relation(fields: [userId], references: [id], onDelete: Cascade)
   roles Role[]

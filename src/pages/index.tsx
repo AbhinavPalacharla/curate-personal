@@ -50,6 +50,7 @@ const Page: NextPageWithLayout = (props: any) => {
           id: string;
           name: string;
           icon: IconName;
+          message?: string;
           posts: Array<
             Pick<
               PostType,
@@ -103,8 +104,15 @@ const Page: NextPageWithLayout = (props: any) => {
           </h1>
         </div>
       )}
-      <div className="pb-20 pt-4 flex flex-row justify-center"></div>
-      <h1>Hello</h1>
+      <div className="pb-20 pt-4 flex flex-row justify-center">
+        {collectionData?.message && (
+          <h1 className="text-[#969696] text-sm font-light italic">
+            {/* ~~ Dedicated to Madeline ~~ */}
+            {collectionData.message}
+          </h1>
+        )}
+      </div>
+      {/* <h1>Hello</h1> */}
     </div>
   );
 };
