@@ -52,8 +52,8 @@ const Dropdown: React.FC<{
               </div>
             ) : (
               <div className=" flex flex-row h-full items-center justify-center ">
-                <h1 className="text-[#969696] test-sm font-light w-48 p-2 flex flex-row justify-center">
-                  No Items :(
+                <h1 className="text-[#969696] text-sm font-light w-48 p-2 flex flex-row justify-center">
+                  Loading...
                 </h1>
               </div>
             )}

@@ -13,34 +13,28 @@ const Navbar: React.FC<{}> = () => {
   const [flash, setFlash] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  // const { data, isLoading } = useQuery(
-  //   ["collections"],
-  //   async () => {
-  //     const {
-  //       data,
-  //     }: { data: Array<Pick<Collection, "id" | "name" | "icon">> } =
-  //       await axios.get("/api/collection/get.collections");
-
-  //     return data;
-  //   },
-  //   {
-  //     refetchInterval: 0,
-  //   }
-  // );
-
   const router = useRouter();
 
-  // useEffect(() => {
-  //   router.prefetch("/collections");
-  // }, []);
+  useEffect(() => {
+    router.prefetch("/collections");
+  }, []);
+
+  useEffect(() => {
+    if (loading === false) {
+      setFlash(false);
+    } else {
+      setTimeout(() => {
+        setFlash(!flash);
+      }, 100);
+    }
+  });
 
   const { data, isLoading } = useQuery(
     ["collections"],
     async () => {
       const {
         data,
-      }: // }: { data: Array<Pick<Collection, "id" | "name" | "icon">> } =
-      {
+      }: {
         data: Array<{
           type: "OWNER" | "MEMBER";
           collection: {
@@ -64,19 +58,8 @@ const Navbar: React.FC<{}> = () => {
 
   const store = useCollectionStore();
 
-  useEffect(() => {
-    if (loading === false) {
-      setFlash(false);
-    } else {
-      setTimeout(() => {
-        setFlash(!flash);
-      }, 100);
-    }
-  });
-
   return (
     <div className="flex flex-row items-center">
-      {/* <h1 className="text-white">Loading: {JSON.stringify(loading)}</h1> */}
       <div className="w-[1%] bg-black/80 backdrop-blur-md" />
       <div
         className={`flex flex-row justify-between items-center px-2 lg:px-12 py-3 mb-8 border-b-[1px] ${
@@ -84,7 +67,6 @@ const Navbar: React.FC<{}> = () => {
         } bg-black/80 backdrop-blur-md w-[98%]`}
       >
         <div className="flex flex-row items-center gap-x-2">
-          {/* <h1 className="text-white">Loading: {JSON.stringify(loading)}</h1> */}
           <h1 className="text-[#969696] font-light text-sm italic">Index</h1>
           <>
             <h1 className="text-[#969696] font-light text-md italic">/</h1>
