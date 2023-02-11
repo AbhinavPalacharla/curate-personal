@@ -5,7 +5,7 @@ import { authOptions } from "@/pages/api/auth/[...nextauth]";
 import { useCollectionStore } from "stores";
 import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
-import type { Post as PostType, SocialUser } from "@prisma/client";
+import type { Media, Post as PostType, SocialUser } from "@prisma/client";
 import { useEffect } from "react";
 import type { IconName } from "@/utils/iconNames";
 
@@ -57,7 +57,7 @@ const Page: NextPageWithLayout = (props: any) => {
               "id" | "description" | "images" | "source" | "createdAt"
             > & {
               socialUser: Pick<SocialUser, "username" | "platform">;
-            }
+            } & { media: Array<Media> }
           >;
         };
       } = await axios.get(
@@ -85,12 +85,22 @@ const Page: NextPageWithLayout = (props: any) => {
     <div>
       <div className="py-10" />
       {collectionData && collectionData?.posts?.length > 0 ? (
+        // <h1 className="text-white">Data: {JSON.stringify(collec)}</h1>
         collectionData.posts.map((post) => {
           return (
             <Post
               key={post.id}
               description={post.description}
-              images={post.images}
+              // images={post.images}
+              media={(() => {
+                return post.media.map((image) => {
+                  return {
+                    id: image.id,
+                    url: image.url,
+                    type: image.type,
+                  };
+                });
+              })()}
               source={post.source}
               socialUser={post.socialUser}
               createdAt={post.createdAt}
@@ -107,12 +117,10 @@ const Page: NextPageWithLayout = (props: any) => {
       <div className="pb-20 pt-4 flex flex-row justify-center">
         {collectionData?.message && (
           <h1 className="text-[#969696] text-sm font-light italic">
-            {/* ~~ Dedicated to Madeline ~~ */}
             {collectionData.message}
           </h1>
         )}
       </div>
-      {/* <h1>Hello</h1> */}
     </div>
   );
 };
