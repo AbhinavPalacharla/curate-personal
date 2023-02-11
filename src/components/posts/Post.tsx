@@ -11,7 +11,7 @@ const Post: React.FC<
   }
 > = ({ media, description, source, createdAt, socialUser: { username } }) => {
   return (
-    <div className="border-[#292929] border-[1px] rounded-lg lg:rounded-md p-4 lg:pb-6 mb-4">
+    <div className="border-[#292929] border-[1px] rounded-lg lg:rounded-md p-2 lg:p-4 lg:pb-6 mb-4">
       {media && (
         <>
           {media.length === 1 ? (
@@ -25,7 +25,7 @@ const Post: React.FC<
                   height={4096}
                   // className="rounded-sm max-h-[32rem]"
                   // className="h-max-[28rem] max-w-none w-auto"
-                  className="rounded-sm h-[36rem] max-w-[100%] w-auto"
+                  className="rounded-sm max-w-[100%] w-auto"
                 />
               ) : (
                 <video
@@ -33,7 +33,7 @@ const Post: React.FC<
                   playsInline
                   autoPlay
                   loop
-                  className="max-h-[36rem]"
+                  className="max-h-[36rem] rounded-sm"
                 >
                   <source src={media[0].url} />
                 </video>
@@ -52,7 +52,13 @@ const Post: React.FC<
                     className="h-96 max-w-none w-auto rounded-sm"
                   />
                 ) : (
-                  <video muted playsInline autoPlay loop className="h-96">
+                  <video
+                    muted
+                    playsInline
+                    autoPlay
+                    loop
+                    className="h-96 rounded-md"
+                  >
                     <source src={media.url} />
                   </video>
                 );
