@@ -18,6 +18,7 @@ const PostMetaInfo: React.FC<{ date: Date }> = ({ date }) => {
           ]}
         />
       </div>
+      <div className="visible lg:hidden" />
       <h1
         className={`${robotoMono.className} font-light text-sm text-[#969696] tracking-wide pl-1 lg:pl-0`}
       >
