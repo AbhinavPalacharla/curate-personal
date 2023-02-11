@@ -1,51 +1,62 @@
 import Image from "next/image";
 import { PostMetaInfo } from "./PostMetaInfo";
-import type { Post, SocialUser } from "@prisma/client";
+import type { Media, Post, SocialUser } from "@prisma/client";
 import Link from "next/link";
 
 const Post: React.FC<
   Pick<Post, "description" | "source" | "createdAt"> & {
-    images?: Array<string>;
+    media?: Array<Partial<Media>>;
   } & {
     socialUser: Pick<SocialUser, "username" | "platform">;
   }
-> = ({ images, description, source, createdAt, socialUser: { username } }) => {
+> = ({ media, description, source, createdAt, socialUser: { username } }) => {
   return (
     <div className="border-[#292929] border-[1px] rounded-lg lg:rounded-md p-4 lg:pb-6 mb-4">
-      {images && (
+      {media && (
         <>
-          {images.length === 1 ? (
+          {media.length === 1 ? (
             <div className="flex flex-row items-center justify-center">
-              {/* <Link href={`${images[0]}:orig`} legacyBehavior={true}> */}
-              {/* <a target="_blank" rel="noopener noreferrer"> */}
-              <Image
-                key={images[0]}
-                alt={"Image"}
-                src={`${images[0]}:orig`}
-                width={500}
-                height={500}
-                className="rounded-sm"
-              />
-              {/* </a> */}
-              {/* </Link> */}
+              {media[0].type === "IMAGE" ? (
+                <Image
+                  key={media[0].url}
+                  alt={"Image"}
+                  src={`${media[0].url}:orig`}
+                  width={4096}
+                  height={4096}
+                  // className="rounded-sm max-h-[32rem]"
+                  // className="h-max-[28rem] max-w-none w-auto"
+                  className="rounded-sm h-[36rem] max-w-[100%] w-auto"
+                />
+              ) : (
+                <video
+                  muted
+                  playsInline
+                  autoPlay
+                  loop
+                  className="max-h-[36rem]"
+                >
+                  <source src={media[0].url} />
+                </video>
+              )}
             </div>
           ) : (
             <div className="flex flex-row overflow-x-scroll scroll-smooth gap-x-4 scrollbar-hide">
-              {images.map((image) => (
-                <Image
-                  key={image}
-                  alt={"Image"}
-                  src={`${image}:orig`}
-                  width={4096}
-                  height={4096}
-                  className="h-96 max-w-none w-auto rounded-sm"
-                  // className="position-relative rounded-md lg:w-auto"
-                  // fill
-                  // width={100%}
-                  // height={100%}
-                  // className="rounded-md h-4 w-4"
-                />
-              ))}
+              {media.map((media) => {
+                return media.type === "IMAGE" ? (
+                  <Image
+                    key={media.url}
+                    alt={"Image"}
+                    src={`${media.url}:orig`}
+                    width={4096}
+                    height={4096}
+                    className="h-96 max-w-none w-auto rounded-sm"
+                  />
+                ) : (
+                  <video muted playsInline autoPlay loop className="h-96">
+                    <source src={media.url} />
+                  </video>
+                );
+              })}
             </div>
           )}
         </>

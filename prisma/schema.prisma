@@ -52,6 +52,7 @@ enum Type {
 model Post {
   id           String      @id @default(cuid())
   images       String[]
+  media        Media[]
   description  String?
   source       String?
   socialUser   SocialUser? @relation(fields: [socialUserId], references: [id])
@@ -63,6 +64,20 @@ model Post {
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+model Media {
+  id      String    @id @default(cuid())
+  url     String    @unique
+  post    Post      @relation(fields: [postId], references: [id], onDelete: Cascade)
+  postId  String
+  type    MediaType
+  caption String?
+}
+
+enum MediaType {
+  IMAGE
+  VIDEO
 }
 
 model SocialUser {

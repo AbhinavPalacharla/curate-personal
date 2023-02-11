@@ -20,6 +20,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
             id: true,
             description: true,
             images: true,
+            media: true,
             source: true,
             createdAt: true,
             socialUser: {
