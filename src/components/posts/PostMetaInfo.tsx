@@ -1,24 +1,12 @@
-import { Tags } from "./Tags";
 import { Roboto_Mono } from "@next/font/google";
 
 const robotoMono = Roboto_Mono();
 
-const PostMetaInfo: React.FC<{ date: Date }> = ({ date }) => {
+const PostMetaInfo: React.FC<{
+  date: Date;
+}> = ({ date }) => {
   return (
-    <div className="flex flex-col gap-y-4 lg:flex-row lg:items-center justify-between pt-8">
-      <div className="hidden lg:visible">
-        <Tags
-          tags={[
-            "Dark-Theme",
-            "Minimal Design",
-            "Dark-Theme",
-            "Minimal Design",
-            "Dark-Theme",
-            "Minimal Design",
-          ]}
-        />
-      </div>
-      <div className="visible lg:hidden" />
+    <div className="flex flex-row items-center pt-4 lg:pt-8 pb-2 lg:pb-0">
       <h1
         className={`${robotoMono.className} font-light text-sm text-[#969696] tracking-wide pl-1 lg:pl-0`}
       >

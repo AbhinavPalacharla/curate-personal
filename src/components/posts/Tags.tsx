@@ -20,7 +20,7 @@ const Tag: FC<{ name: string }> = ({ name }) => {
 
 const Tags: FC<{ tags?: Array<string> }> = ({ tags }) => {
   return (
-    <div className="flex flex-row items-center gap-x-1 lg:gap-x-2">
+    <div className="hidden lg:flex lg:flex-row items-center gap-x-1 lg:gap-x-2">
       <div className="flex flex-row items-center gap-x-2 w-96 overflow-x-scroll scrollbar-hide">
         {tags?.map((tag, i) => {
           return <Tag key={i} name={tag} />;

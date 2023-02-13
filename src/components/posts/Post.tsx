@@ -7,9 +7,9 @@ const Post: React.FC<
   Pick<Post, "description" | "source" | "createdAt"> & {
     media?: Array<Partial<Media>>;
   } & {
-    socialUser: Pick<SocialUser, "username" | "platform">;
+    socialUser?: Pick<SocialUser, "username" | "platform">;
   }
-> = ({ media, description, source, createdAt, socialUser: { username } }) => {
+> = ({ media, description, source, createdAt, socialUser }) => {
   return (
     <div className="border-[#292929] border-[1px] rounded-lg lg:rounded-md p-2 lg:p-4 lg:pb-6 mb-4">
       {media && (
@@ -20,12 +20,14 @@ const Post: React.FC<
                 <Image
                   key={media[0].url}
                   alt={"Image"}
-                  src={`${media[0].url}:orig`}
+                  src={`${
+                    source?.includes("twitter.com")
+                      ? `${media[0].url}:orig`
+                      : `${media[0].url}`
+                  }`}
                   width={4096}
                   height={4096}
-                  // className="rounded-sm max-h-[32rem]"
-                  // className="h-max-[28rem] max-w-none w-auto"
-                  className="rounded-sm max-w-none lg:max-w-[100%] w-auto"
+                  className="rounded-sm max-w-[100%] lg:min-h-[24rem] max-h-[36rem] w-auto"
                 />
               ) : (
                 <video
@@ -33,9 +35,10 @@ const Post: React.FC<
                   playsInline
                   autoPlay
                   loop
-                  className="max-h-[36rem] rounded-sm"
+                  controls={false}
+                  className="lg:min-h-[24rem] max-h-[36rem] max-w-[100%] w-auto rounded-sm"
                 >
-                  <source src={media[0].url} />
+                  <source src={`${media[0].url}`} />
                 </video>
               )}
             </div>
@@ -57,9 +60,9 @@ const Post: React.FC<
                     playsInline
                     autoPlay
                     loop
-                    className="h-96 rounded-md"
+                    className="h-96 rounded-sm"
                   >
-                    <source src={media.url} />
+                    <source src={`${media.url}`} />
                   </video>
                 );
               })}
@@ -68,7 +71,7 @@ const Post: React.FC<
         </>
       )}
       <h1 className="text-white pt-4">{description}</h1>
-      {source && (
+      {source && source.includes("twitter.con") ? (
         <Link href={source} legacyBehavior>
           <a
             className="flex flex-row items-center gap-x-1 text-sm text-[#969696] font-light italic pt-4"
@@ -76,9 +79,32 @@ const Post: React.FC<
             rel="noopener noreferrer"
           >
             <h1>View original tweet by</h1>
-            <h1 className="underline underline-offset-1">@{username}</h1>
+            <h1 className="underline underline-offset-1">
+              @{socialUser?.username}
+            </h1>
           </a>
         </Link>
+      ) : (
+        source && (
+          <Link href={source} legacyBehavior>
+            <a
+              className="flex flex-row items-center gap-x-1 text-sm text-[#969696] font-light italic pt-4"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              {source.includes("twitter.com") ? (
+                <>
+                  <h1>View original tweet by</h1>
+                  <h1 className="underline underline-offset-1">
+                    @{socialUser?.username}
+                  </h1>
+                </>
+              ) : (
+                <h1>View original post on Instagram</h1>
+              )}
+            </a>
+          </Link>
+        )
       )}
       <PostMetaInfo date={createdAt} />
     </div>

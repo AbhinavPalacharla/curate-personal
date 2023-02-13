@@ -1,5 +1,5 @@
 import Avatar from "boring-avatars";
-import { IconPicker, Divider } from "@/components/shared";
+import { IconPicker, Divider, Profile } from "@/components/shared";
 import { useState, useEffect } from "react";
 import { IconName, getIconByName } from "@/utils";
 import {
@@ -46,7 +46,7 @@ const User: React.FC<{
         colors={["#F88F79", "#F6AA93", "#E94E77", "#F4EAD5", "#D68189"]}
         size={25}
       />
-      <h1 className="text-white text-sm ml-8 w-36 truncate">{name}</h1>
+      <h1 className="text-white text-sm ml-8 w-32 truncate">{name}</h1>
       <button
         className="text-[#969696] hover:text-white ml-6 pr-0.5 text-sm font-light italic invisible lg:visible"
         onClick={() => {

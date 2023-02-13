@@ -5,7 +5,7 @@ import { authOptions } from "@/pages/api/auth/[...nextauth]";
 import { useCollectionStore } from "stores";
 import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
-import type { Media, Post as PostType, SocialUser } from "@prisma/client";
+import type { Media, Post as PostType, SocialUser, User } from "@prisma/client";
 import { useEffect } from "react";
 import type { IconName } from "@/utils/iconNames";
 
@@ -57,7 +57,9 @@ const Page: NextPageWithLayout = (props: any) => {
               "id" | "description" | "images" | "source" | "createdAt"
             > & {
               socialUser: Pick<SocialUser, "username" | "platform">;
-            } & { media: Array<Media> }
+            } & { media: Array<Media> } & {
+              user: Pick<User, "id" | "username" | "name">;
+            }
           >;
         };
       } = await axios.get(
