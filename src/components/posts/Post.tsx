@@ -25,7 +25,7 @@ const Post: React.FC<
                   height={4096}
                   // className="rounded-sm max-h-[32rem]"
                   // className="h-max-[28rem] max-w-none w-auto"
-                  className="rounded-sm max-w-[100%] w-auto"
+                  className="rounded-sm max-w-none lg:max-w-[100%] w-auto"
                 />
               ) : (
                 <video
