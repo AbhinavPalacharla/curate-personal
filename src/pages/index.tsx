@@ -106,7 +106,6 @@ const Page: NextPageWithLayout = (props: any) => {
               source={post.source}
               socialUser={post.socialUser}
               createdAt={post.createdAt}
-              user={post.user}
             />
           );
         })
