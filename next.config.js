@@ -9,7 +9,7 @@ const nextConfig = {
       },
       {
         protocol: "https",
-        hostname: "scontent.cdninstagram.com",
+        hostname: "scontent*.cdninstagram.com",
       },
     ],
   },
