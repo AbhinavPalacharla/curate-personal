@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { PostMetaInfo } from "./PostMetaInfo";
-import type { Media, Post, SocialUser } from "@prisma/client";
+import type { Media, Post, SocialUser, User } from "@prisma/client";
 import Link from "next/link";
 
 const Post: React.FC<
@@ -8,8 +8,8 @@ const Post: React.FC<
     media?: Array<Partial<Media>>;
   } & {
     socialUser?: Pick<SocialUser, "username" | "platform">;
-  }
-> = ({ media, description, source, createdAt, socialUser }) => {
+  } & { user: Pick<User, "id" | "username" | "name"> }
+> = ({ media, description, source, createdAt, socialUser, user }) => {
   return (
     <div className="border-[#292929] border-[1px] rounded-lg lg:rounded-md p-2 lg:p-4 lg:pb-6 mb-4">
       {media && (
@@ -35,7 +35,7 @@ const Post: React.FC<
                   playsInline
                   autoPlay
                   loop
-                  className="min-h-[24rem] max-h-[36rem] rounded-sm"
+                  className="lg:min-h-[24rem] max-h-[36rem] max-w-[100%] w-auto rounded-sm"
                 >
                   <source src={`${media[0].url}`} />
                 </video>
@@ -59,7 +59,7 @@ const Post: React.FC<
                     playsInline
                     autoPlay
                     loop
-                    className="h-96 rounded-md"
+                    className="h-96 rounded-sm"
                   >
                     <source src={`${media.url}`} />
                   </video>
@@ -105,7 +105,7 @@ const Post: React.FC<
           </Link>
         )
       )}
-      <PostMetaInfo date={createdAt} />
+      <PostMetaInfo date={createdAt} user={user} />
     </div>
   );
 };

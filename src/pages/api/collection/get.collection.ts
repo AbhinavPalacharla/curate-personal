@@ -29,6 +29,13 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
                 platform: true,
               },
             },
+            user: {
+              select: {
+                id: true,
+                username: true,
+                name: true,
+              },
+            },
           },
           orderBy: {
             createdAt: "desc",
