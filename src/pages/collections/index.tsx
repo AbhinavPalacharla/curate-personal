@@ -323,11 +323,9 @@ export async function getServerSideProps(context: any) {
     }>;
   };
 
-  const collections = data
-    .map((role) => {
-      return role.collection;
-    })
-    .reverse();
+  const collections = data.map((role) => {
+    return role.collection;
+  });
 
   return {
     props: {
