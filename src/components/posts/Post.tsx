@@ -99,9 +99,16 @@ const Post: React.FC<
                     @{socialUser?.username}
                   </h1>
                 </>
-              ) : (
+              ) : source.includes("layers.to") ? (
+                <>
+                  <h1>View original layer by</h1>
+                  <h1 className="underline underline-offset-1">
+                    @{socialUser?.username}
+                  </h1>
+                </>
+              ) : source.includes("instagram.com") ? (
                 <h1>View original post on Instagram</h1>
-              )}
+              ) : null}
             </a>
           </Link>
         )
@@ -110,5 +117,18 @@ const Post: React.FC<
     </div>
   );
 };
+
+/*
+{source.includes("twitter.com") ? (
+                <>
+                  <h1>View original tweet by</h1>
+                  <h1 className="underline underline-offset-1">
+                    @{socialUser?.username}
+                  </h1>
+                </>
+              ) : (
+                <h1>View original post on Instagram</h1>
+              )}
+*/
 
 export { Post };

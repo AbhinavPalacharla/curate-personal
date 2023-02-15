@@ -90,6 +90,7 @@ model SocialUser {
 
 enum Platform {
   TWITTER
+  LAYERS
 }
 
 model Account {
