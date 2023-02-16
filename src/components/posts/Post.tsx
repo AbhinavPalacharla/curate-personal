@@ -49,7 +49,11 @@ const Post: React.FC<
                   <Image
                     key={media.url}
                     alt={"Image"}
-                    src={`${media.url}:orig`}
+                    src={`${
+                      media.url?.includes("twitter.com")
+                        ? `${media.url}:orig`
+                        : `${media.url}`
+                    }`}
                     width={4096}
                     height={4096}
                     className="h-96 max-w-none w-auto rounded-sm"

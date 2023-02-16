@@ -8,6 +8,7 @@ import { useQuery } from "@tanstack/react-query";
 import type { Media, Post as PostType, SocialUser, User } from "@prisma/client";
 import { useEffect } from "react";
 import type { IconName } from "@/utils/iconNames";
+import Image from "next/image";
 
 const Page: NextPageWithLayout = (props: any) => {
   const { data, isLoading } = useQuery(

@@ -7,39 +7,48 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   try {
     const { layersURL, collectionId, userId } = req.body;
 
-    const {
-      data: { layer },
-    } = await axios.get(`${layersURL}?_data`);
+    const { data } = await axios.get(`${layersURL}?_data`);
 
-    if (!layer) {
+    if (!data) {
       return res.status(404).json({ message: "Layer not found" });
     }
 
-    const layersData = {
-      description: layer.description ?? layer.title,
-      media: {
-        url: layer.imageUrl as string,
-        type: (layer.imageUrl.includes(".mp4") ? "VIDEO" : "IMAGE") as
-          | "VIDEO"
-          | "IMAGE",
-      },
+    const layer = {
+      description: data.groupLayers ? data.layer.title : data.layer.description,
+      media: (() => {
+        return data.groupLayers
+          ? data.groupLayers.map(({ layer }: { layer: any }) => {
+              return {
+                url: layer.imageUrl as string,
+                type: (layer.imageUrl.includes(".mp4") ? "VIDEO" : "IMAGE") as
+                  | "VIDEO"
+                  | "IMAGE",
+              };
+            })
+          : {
+              url: data.layer.imageUrl as string,
+              type: (data.layer.imageUrl.includes(".mp4")
+                ? "VIDEO"
+                : "IMAGE") as "VIDEO" | "IMAGE",
+            };
+      })(),
       user: {
-        uid: layer.user.id,
-        username: layer.user.username,
+        uid: data.layer.user.id,
+        username: data.layer.user.username,
       },
     };
 
     const post = await prisma.post.create({
       data: {
-        description: layersData.description,
+        description: layer.description,
         source: layersURL,
-        media: { create: layersData.media },
+        media: { create: layer.media },
         socialUser: {
           connectOrCreate: {
-            where: { uid: layersData.user.uid },
+            where: { uid: layer.user.uid },
             create: {
-              uid: layersData.user.uid,
-              username: layersData.user.username,
+              uid: layer.user.uid,
+              username: layer.user.username,
               platform: "LAYERS",
             },
           },
