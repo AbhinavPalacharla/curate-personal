@@ -13,30 +13,50 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       return res.status(404).json({ message: "Layer not found" });
     }
 
-    const layer = {
-      description: data.groupLayers ? data.layer.title : data.layer.description,
-      media: (() => {
-        return data.groupLayers
-          ? data.groupLayers.map(({ layer }: { layer: any }) => {
-              return {
-                url: layer.imageUrl as string,
-                type: (layer.imageUrl.includes(".mp4") ? "VIDEO" : "IMAGE") as
-                  | "VIDEO"
-                  | "IMAGE",
-              };
-            })
-          : {
-              url: data.layer.imageUrl as string,
-              type: (data.layer.imageUrl.includes(".mp4")
-                ? "VIDEO"
-                : "IMAGE") as "VIDEO" | "IMAGE",
-            };
-      })(),
+    let layer: {
+      description: string;
+      media: Array<{ url: string; type: "IMAGE" | "VIDEO" }>;
+      user: { uid: string; username: string };
+    } = {
+      description: "",
+      media: [],
       user: {
-        uid: data.layer.user.id,
-        username: data.layer.user.username,
+        uid: "",
+        username: "",
       },
     };
+
+    if (data.groupLayers[0]) {
+      layer.description = data.layer.title;
+      layer.media = data.groupLayers.map(({ layer }: { layer: any }) => {
+        return {
+          url: layer.imageUrl as string,
+          type: (layer.imageUrl.includes(".mp4") ? "VIDEO" : "IMAGE") as
+            | "VIDEO"
+            | "IMAGE",
+        };
+      });
+      layer.user = {
+        uid: data.layer.user.id,
+        username: data.layer.user.username,
+      };
+    } else {
+      if (data.layer) {
+        layer.description = data.layer.title;
+        layer.media = [
+          {
+            url: data.layer.imageUrl as string,
+            type: (data.layer.imageUrl.includes(".mp4") ? "VIDEO" : "IMAGE") as
+              | "VIDEO"
+              | "IMAGE",
+          },
+        ];
+        layer.user = {
+          uid: data.layer.user.id,
+          username: data.layer.user.username,
+        };
+      }
+    }
 
     const post = await prisma.post.create({
       data: {
