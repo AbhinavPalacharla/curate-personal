@@ -13,7 +13,6 @@ const Page: NextPageWithLayout = (props: any) => {
     <div className="flex flex-row lg:gap-x-32 lg:items-center justify-center lg:h-screen">
       <div className="flex flex-col mt-24 ml-8 lg:m-0">
         <div className="flex flex-col gap-y-1">
-          <h1 className="text-white">Session: {JSON.stringify(session)}</h1>
           <h1 className="text-3xl font-light text-white italic">
             Dead simple inspiration
           </h1>
