@@ -15,6 +15,10 @@ const nextConfig = {
         protocol: "https",
         hostname: "layers-uploads-prod.s3.*.amazonaws.com",
       },
+      {
+        protocol: "https",
+        hostname: "images.unsplash.com",
+      },
     ],
   },
   experimental: {

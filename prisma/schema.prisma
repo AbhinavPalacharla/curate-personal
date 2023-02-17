@@ -91,6 +91,7 @@ model SocialUser {
 enum Platform {
   TWITTER
   LAYERS
+  UNSPLASH
 }
 
 model Account {
