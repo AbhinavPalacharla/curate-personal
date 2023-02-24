@@ -4,7 +4,6 @@ import { useState, useEffect } from "react";
 import { IconName, getIconByName } from "@/utils";
 import {
   ArrowRight,
-  ArrowRightCircle,
   LongArrowUpLeft,
   Plus,
 } from "iconoir-react";
@@ -76,7 +75,7 @@ const AddMember: React.FC<{
 
   const queryClient = useQueryClient();
 
-  const { data, isLoading, refetch } = useQuery(
+  const { data } = useQuery(
     [watch("username")],
     async () => {
       const {

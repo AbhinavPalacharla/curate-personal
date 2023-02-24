@@ -6,7 +6,6 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { WarningCircle } from "iconoir-react";
-import { useSession } from "next-auth/react";
 import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
 import { useRouter } from "next/router";
@@ -52,13 +51,10 @@ const Page: NextPageWithLayout = () => {
     }
   );
 
-  const { data: session } = useSession();
-
   const {
     register,
     handleSubmit,
-    watch,
-    formState: { errors, isValid, isLoading, isDirty },
+    formState: { errors, isValid },
   } = useForm({
     mode: "onBlur",
     resolver: zodResolver(schema),
