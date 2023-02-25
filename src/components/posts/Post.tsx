@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { PostMetaInfo } from "./PostMetaInfo";
+import { ImageInspect } from "./ImageInspect";
 import type { Media, Post, SocialUser } from "@prisma/client";
 import Link from "next/link";
 
@@ -17,18 +18,20 @@ const Post: React.FC<
           {media.length === 1 ? (
             <div className="flex flex-row items-center justify-center">
               {media[0].type === "IMAGE" ? (
-                <Image
-                  key={media[0].url}
-                  alt={"Image"}
-                  src={`${
-                    source?.includes("twitter.com")
-                      ? `${media[0].url}:orig`
-                      : `${media[0].url}`
-                  }`}
-                  width={4096}
-                  height={4096}
-                  className="rounded-sm max-w-[100%] lg:min-h-[24rem] max-h-[36rem] w-auto"
-                />
+                <ImageInspect url={media[0].url!}>
+                  <Image
+                    key={media[0].url}
+                    alt={"Image"}
+                    src={`${
+                      source?.includes("twitter.com")
+                        ? `${media[0].url}:orig`
+                        : `${media[0].url}`
+                    }`}
+                    width={4096}
+                    height={4096}
+                    className="rounded-sm max-w-[100%] lg:min-h-[24rem] max-h-[36rem] w-auto"
+                  />
+                </ImageInspect>
               ) : (
                 <video
                   muted
@@ -46,18 +49,20 @@ const Post: React.FC<
             <div className="flex flex-row overflow-x-scroll scroll-smooth gap-x-4 scrollbar-hide">
               {media.map((media) => {
                 return media.type === "IMAGE" ? (
-                  <Image
-                    key={media.url}
-                    alt={"Image"}
-                    src={`${
-                      media.url?.includes("twitter.com")
-                        ? `${media.url}:orig`
-                        : `${media.url}`
-                    }`}
-                    width={4096}
-                    height={4096}
-                    className="h-96 max-w-none w-auto rounded-sm"
-                  />
+                  <ImageInspect url={media.url!}>
+                    <Image
+                      key={media.url}
+                      alt={"Image"}
+                      src={`${
+                        media.url?.includes("twitter.com")
+                          ? `${media.url}:orig`
+                          : `${media.url}`
+                      }`}
+                      width={4096}
+                      height={4096}
+                      className="h-96 max-w-none w-auto rounded-sm"
+                    />
+                  </ImageInspect>
                 ) : (
                   <video
                     muted
